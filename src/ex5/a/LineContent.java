@@ -7,5 +7,6 @@ public enum LineContent {
     IF_STATEMENT,
     WHILE_STATEMENT,
     VAR_ASSIGNMENT,
+    RETURN,
     ILLEGAL
 }
