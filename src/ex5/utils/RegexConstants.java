@@ -6,7 +6,7 @@ public class RegexConstants {
             TYPE_REGEX = "int|double|String|boolean|char",
             VAR_TYPE_REGEX = String.format("^(final\\s+)?(%s)\\s+", TYPE_REGEX),
             VAR_NAME_REGEX = "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)",
-            VAR_VALUE_REGEX = "((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false))?",
+            VAR_VALUE_REGEX = "((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|"+VAR_NAME_REGEX+"))?",
             SINGLE_DECLARATION_REGEX = String.format("(%s)(%s)", VAR_NAME_REGEX, VAR_VALUE_REGEX),
             VARIABLE_DECLARATION_REGEX = String.format("(%s)(%s,\\s*)*%s;$",VAR_TYPE_REGEX, SINGLE_DECLARATION_REGEX, SINGLE_DECLARATION_REGEX),
 

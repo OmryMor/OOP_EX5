@@ -5,14 +5,14 @@ import ex5.a.VariableType;
 public class VariableAttributes {
 
     public final VariableType type;
-    public final float scope;
     public boolean hasValue;
-    public boolean isFinal;
+    public final boolean isFinal;
+    public final String name;
 
-    public VariableAttributes(VariableType type, float scope, boolean hasValue, boolean isFinal) {
+    public VariableAttributes(VariableType type, boolean hasValue, boolean isFinal, String name) {
         this.hasValue = hasValue;
         this.type = type;
-        this.scope = scope;
         this.isFinal = isFinal;
+        this.name = name;
     }
 }

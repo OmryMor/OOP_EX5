@@ -1,7 +1,6 @@
 package ex5.a.Containers;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class MethodsContainer {
    private static HashMap<String, MethodAttributes> methods;

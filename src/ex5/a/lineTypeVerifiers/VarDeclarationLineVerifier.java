@@ -1,7 +1,9 @@
 package ex5.a.lineTypeVerifiers;
 
+import ex5.a.Containers.VariableAttributes;
+import ex5.a.Containers.VariableContainer;
 import ex5.utils.LineNumberTuple;
-import ex5.a.Scope;
+import ex5.a.Containers.Scope;
 import ex5.a.VariableType;
 import ex5.utils.Constants;
 import ex5.utils.RegexConstants;
@@ -29,7 +31,8 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         while (matcher.find()) {
             String name = matcher.group(1);
             String value = matcher.group(4);
-            if(value == null && isFinal){
+            boolean hasValue = value != null;
+            if(!hasValue && isFinal){
                 //TODO ERROR - FINAL VARIABLE MUST BE INITIALIZED (show line)
                 return false;
             }
@@ -41,11 +44,12 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 //TODO ERROR - VALUE DOES NOT MATCH VARIABLE TYPE (show line)
                 return false;
             }
+            VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
+            if(!VariableContainer.addVarToCurrentScope(var)){
+                //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
+                return false;
+            }
         }
-        //type match
-        //wasnt already decalred
-
-
         return true;
     }
 
@@ -68,6 +72,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
 
     private boolean verifyValue(VariableType type, String value){
         switch (type){
+
             case INT:
                 try {
                     Integer.parseInt(value);
@@ -75,6 +80,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                     return false;
                 }
                 break;
+
             case DOUBLE:
                 try {
                     Double.parseDouble(value);
@@ -82,11 +88,13 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                     return false;
                 }
                 break;
+
             case STRING:
                 if (!value.startsWith("\"") || !value.endsWith("\"")){
                     return false;
                 }
                 break;
+
             case BOOLEAN:
                 if (!value.equals(Constants.TRUE_KEYWORD) && !value.equals(Constants.FALSE_KEYWORD)){
                     try {
@@ -96,6 +104,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                     }
                 }
                 break;
+
             case CHAR:
                 if (!value.startsWith("'") || !value.endsWith("'") || value.length() != 3){
                     return false;
@@ -103,7 +112,9 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 break;
 
             case VARIABLE:
-                return true;
+                VariableAttributes newVar = VariableContainer.getVar(value);
+                if(newVar == null || newVar.type != type) return false;
+                break;
         }
         return true;
     }
