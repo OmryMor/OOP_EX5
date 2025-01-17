@@ -1,0 +1,11 @@
+package ex5.a;
+
+public enum LineContent {
+    CLOSE_BRACKET,
+    METHOD_DECLARATION,
+    VARIABLE_DECLARATION,
+    IF_STATEMENT,
+    WHILE_STATEMENT,
+    VAR_ASSIGNMENT,
+    ILLEGAL
+}
