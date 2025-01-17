@@ -8,5 +8,6 @@ public enum LineContent {
     WHILE_STATEMENT,
     VAR_ASSIGNMENT,
     RETURN,
+    MATHOD_CALL,
     ILLEGAL
 }

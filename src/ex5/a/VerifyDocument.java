@@ -1,8 +1,7 @@
 package ex5.a;
 
+import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
-import ex5.utils.ScopeManager;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +17,6 @@ public class VerifyDocument {
 
     public static int Verify(String path){
         // take file path read it and add each row to a list
-        VariableVerifier variableVerifier = new VariableVerifier();
         List<LineNumberTuple> lines = parseFile(path);
         lines = deleteCommentsAndEmptyRows(lines);
         if(!checkLineEndings(lines)){
@@ -29,10 +27,6 @@ public class VerifyDocument {
             if(!verifyLine(lineContent, line.line)){
                 return 1;
             }
-        }
-        if(ScopeManager.getScope() != 0){
-            return 1;
-            //TODO Amount of brackets is not equal-
         }
         return 0;
     }
@@ -129,12 +123,5 @@ public class VerifyDocument {
         return false;
     }
 
-    public static class LineNumberTuple {
-        public int lineNumber;
-        public String line;
-        public LineNumberTuple(int lineNumber, String line) {
-            this.lineNumber = lineNumber;
-            this.line = line;
-        }
-    }
+
 }

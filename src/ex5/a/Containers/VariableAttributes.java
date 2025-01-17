@@ -1,4 +1,6 @@
-package ex5.a;
+package ex5.a.Containers;
+
+import ex5.a.VariableType;
 
 public class VariableAttributes {
 

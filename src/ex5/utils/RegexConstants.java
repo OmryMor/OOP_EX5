@@ -1,5 +1,5 @@
 package ex5.utils;
-//
+
 public class RegexConstants {
     public static final String COMMENT_REGEX = "^\\s*$|^\\s*//",
             CODE_ENDLINE_REGEX = ".*[{};]\\s*$",
@@ -19,8 +19,11 @@ public class RegexConstants {
             METHOD_PARAMETERS_REGEX = String.format("(%s\\s+%s\\s*,)*\\s*%s\\s+%s\\s*", TYPE_REGEX, VAR_NAME_REGEX, TYPE_REGEX, VAR_NAME_REGEX),
             METHOD_DECLARATION_REGEX = String.format("^void\\s+%s\\s*\\((\\s*%s+\\s*)?\\)\\s*{$", METHOD_NAME_REGEX, METHOD_PARAMETERS_REGEX),
             VAR_ASSIGNMENT_REGEX = "",
+            METHOD_CALL_REGEX = "",
 
             RETURN_REGEX = "^\\s*return\\s*;\\s*$"
                     ;
 
+    public static final int
+        VARIABLE_TYPE_CAPTURE_GROUP = 2;
 }

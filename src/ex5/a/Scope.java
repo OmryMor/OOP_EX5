@@ -1,5 +1,8 @@
 package ex5.a;
 
+import ex5.a.Containers.MethodAttributes;
+import ex5.a.Containers.VariableAttributes;
+
 import java.util.HashMap;
 
 public class Scope {
@@ -39,5 +42,4 @@ public class Scope {
         else if (parent == null) return null;
         else return parent.findVarInScope(name);
     }
-
 }
