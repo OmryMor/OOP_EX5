@@ -1,3 +1,6 @@
 //variable test
 
- foo(int a, final char c){
+ void foo(int a, final char c){
+   if(true || a && -2 || +.10){
+    while(5){
+

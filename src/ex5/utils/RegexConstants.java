@@ -13,8 +13,8 @@ public class RegexConstants {
 
             CONDITION_REGEX = "true|false|[-+]?[\\d]*[.]?[\\d]+|"+VAR_NAME_REGEX,
             CHAINED_CONDITION_REGEX = String.format("(%s)((\\s*(\\|\\||&&)\\s*(%s))*)", CONDITION_REGEX, CONDITION_REGEX),
-            IF_STATEMENT_REGEX = String.format("^\\s*if\\s*\\(\\s*%s\\s*\\)\\s*{\\s*$", CHAINED_CONDITION_REGEX),
-            WHILE_STATEMENT_REGEX = String.format("^\\s*while\\s*\\(\\s*%s\\s*\\)\\s*{\\s*$", CHAINED_CONDITION_REGEX),
+            IF_STATEMENT_REGEX = String.format("^\\s*if\\s*\\((\\s*%s\\s*)\\)\\s*\\{\\s*$", CHAINED_CONDITION_REGEX),
+            WHILE_STATEMENT_REGEX = String.format("^\\s*while\\s*\\((\\s*%s\\s*)\\)\\s*\\{\\s*$", CHAINED_CONDITION_REGEX),
 
             METHOD_NAME_REGEX = "([A-Za-z][A-Za-z0-9_]*)",
             METHOD_PARAMETERS_REGEX = String.format("((%s%s\\s*,\\s*)*%s%s\\s*)", VAR_TYPE_REGEX, VAR_NAME_REGEX, VAR_TYPE_REGEX, VAR_NAME_REGEX),

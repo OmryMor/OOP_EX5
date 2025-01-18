@@ -18,9 +18,9 @@ public class LineVerifier {
         MethodLineVerifier methodLineVerifier = new MethodLineVerifier();
         verifiers.add(methodLineVerifier);
         WhileLineVerifier whileLineVerifier = new WhileLineVerifier();
-//        verifiers.add(whileLineVerifier);
+        verifiers.add(whileLineVerifier);
         IfLineVerifier ifLineVerifier = new IfLineVerifier();
-//        verifiers.add(ifLineVerifier);
+        verifiers.add(ifLineVerifier);
         VarAssignmentLineVerifier varAssignmentLineVerifier = new VarAssignmentLineVerifier();
 //        verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();

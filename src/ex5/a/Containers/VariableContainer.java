@@ -12,8 +12,12 @@ public class VariableContainer {
         return !currentScope.inMethod;
     }
 
-    public static void scopeOut(){
-        currentScope = currentScope.parent;
+    public static boolean scopeOut(){
+        if(currentScope.parent != null){
+            currentScope = currentScope.parent;
+            return true;
+        }
+        return false;
     }
 
     public static boolean addVarToCurrentScope(VariableAttributes var){

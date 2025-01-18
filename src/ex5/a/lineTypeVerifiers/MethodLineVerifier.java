@@ -1,6 +1,7 @@
 package ex5.a.lineTypeVerifiers;
 
 import ex5.a.Containers.*;
+import ex5.a.LineContent;
 import ex5.a.VariableType;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
@@ -48,6 +49,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
             return false;
         }
         //TODO - IF I DEFINE VARIABLE IN DECLARATION CAN I DEFINE IT AGAIN IN FUNCTION?
+        PreviousStatementContainer.setPrevStatement(LineContent.METHOD_DECLARATION);
         return true;
     }
 
