@@ -8,6 +8,10 @@ public class VariableContainer {
         currentScope = newScope;
     }
 
+    public static boolean inGlobalScope(){
+        return !currentScope.inMethod;
+    }
+
     public static void scopeOut(){
         currentScope = currentScope.parent;
     }

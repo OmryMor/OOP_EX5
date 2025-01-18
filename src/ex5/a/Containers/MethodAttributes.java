@@ -1,23 +1,22 @@
 package ex5.a.Containers;
 
 import ex5.a.VariableType;
-
 import java.util.List;
 
 public class MethodAttributes {
 
     private final String methodName;
     private final int numOfParams;
-    private final List<VariableType> vars;
+    private final List<VariableAttributes> vars;
 
-    MethodAttributes(String methodName, List<VariableType> varTypes)
+    public MethodAttributes(String methodName, List<VariableAttributes> varTypes)
     {
         this.methodName = methodName;
         this.numOfParams = varTypes.size();
         this.vars = varTypes;
     }
 
-    public List<VariableType> getVarTypes(){
+    public List<VariableAttributes> getVarTypes(){
         return this.vars;
     }
 

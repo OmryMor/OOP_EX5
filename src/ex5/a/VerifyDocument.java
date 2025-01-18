@@ -1,5 +1,6 @@
 package ex5.a;
 
+import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
 import java.io.BufferedReader;
@@ -12,23 +13,21 @@ import java.util.regex.Pattern;
 
 public class VerifyDocument {
 
-    public static final String INCORRECT_ENDING_SUFFIX = "There is a line that does not end with a semicolon or curly brace (line %d)";
-
-
     public static int Verify(String path){
         // take file path read it and add each row to a list
         List<LineNumberTuple> lines = parseFile(path);
         lines = deleteCommentsAndEmptyRows(lines);
+        LineVerifier lineVerifier = new LineVerifier();
         if(!checkLineEndings(lines)){
-            return 1;
+            return Constants.CODE_ILLEGAL;
         }
         for(LineNumberTuple line: lines){
-            LineContent lineContent = IdentifyLine(line.line);
-            if(!verifyLine(lineContent, line.line)){
-                return 1;
+//            LineContent lineContent = IdentifyLine(line.line);
+            if(!lineVerifier.verifyLine(line)){
+                return Constants.CODE_ILLEGAL;
             }
         }
-        return 0;
+        return Constants.CODE_LEGAL;
     }
 
     public static void printLines(List<LineNumberTuple> lines){
@@ -79,49 +78,10 @@ public class VerifyDocument {
     private static boolean checkLineEndings(List<LineNumberTuple> lines){
         for (LineNumberTuple line : lines) {
             if (!isCodeEndLine(line.line)) {
-                System.err.printf((INCORRECT_ENDING_SUFFIX) + "%n", line.lineNumber);
+                System.err.printf((Constants.INCORRECT_ENDING_SUFFIX) + "%n", line.lineNumber);
                 return false;
             }
         }
         return true;
     }
-
-    private static LineContent IdentifyLine(String line){
-
-        Pattern pattern = Pattern.compile(RegexConstants.VARIABLE_DECLARATION_REGEX);
-        Matcher matcher = pattern.matcher(line);
-        if(matcher.find()) return LineContent.VARIABLE_DECLARATION;
-
-        pattern = Pattern.compile(RegexConstants.METHOD_DECLARATION_REGEX);
-        matcher = pattern.matcher(line);
-        if(matcher.find()) return LineContent.METHOD_DECLARATION;
-
-        pattern = Pattern.compile(RegexConstants.IF_STATEMENT_REGEX);
-        matcher = pattern.matcher(line);
-        if(matcher.find()) return LineContent.IF_STATEMENT;
-
-        pattern = Pattern.compile(RegexConstants.WHILE_STATEMENT_REGEX);
-        matcher = pattern.matcher(line);
-        if (matcher.find()) return LineContent.WHILE_STATEMENT;
-
-        pattern = Pattern.compile(RegexConstants.VAR_ASSIGNMENT_REGEX);
-        matcher = pattern.matcher(line);
-        if (matcher.find()) return LineContent.VAR_ASSIGNMENT;
-
-        if(line.equals("}")) return LineContent.CLOSE_BRACKET;
-
-        return LineContent.ILLEGAL;
-    }
-
-    private static boolean verifyLine(LineContent content, String line){
-        switch(content){
-            case CLOSE_BRACKET:
-                return line.equals("}");
-            case ILLEGAL:
-                return false;
-        }
-        return false;
-    }
-
-
 }

@@ -3,7 +3,6 @@ package ex5.a.lineTypeVerifiers;
 import ex5.a.Containers.VariableAttributes;
 import ex5.a.Containers.VariableContainer;
 import ex5.utils.LineNumberTuple;
-import ex5.a.Containers.Scope;
 import ex5.a.VariableType;
 import ex5.utils.Constants;
 import ex5.utils.RegexConstants;
@@ -14,9 +13,12 @@ import java.util.regex.Pattern;
 
 public class VarDeclarationLineVerifier implements LineTypeVerifier{
 
+    private int varDefinitionGroup = 3;
+    private int singleDeclarationNameGroup = 1;
+    private int singleDeclarationValueGroup = 6;
+
     @Override
-    public boolean verifyLine(Scope scope, LineNumberTuple lineNumberTuple) {
-//todo add diff var assignment to variable
+    public boolean verifyLine( LineNumberTuple lineNumberTuple) {
         Pattern pattern = Pattern.compile(RegexConstants.VARIABLE_DECLARATION_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
@@ -26,27 +28,30 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         boolean isFinal = lineNumberTuple.line.contains(Constants.FINAL_KEYWORD);
 
         pattern = Pattern.compile(RegexConstants.SINGLE_DECLARATION_REGEX);
-        matcher = pattern.matcher(lineNumberTuple.line);
+        matcher = pattern.matcher(matcher.group(varDefinitionGroup));
 
         while (matcher.find()) {
-            String name = matcher.group(1);
-            String value = matcher.group(4);
+            String name = matcher.group(singleDeclarationNameGroup);
+            String value = matcher.group(singleDeclarationValueGroup);
             boolean hasValue = value != null;
             if(!hasValue && isFinal){
-                //TODO ERROR - FINAL VARIABLE MUST BE INITIALIZED (show line)
+                System.err.printf((Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
             if(isSafeWord(name)){
                 //TODO ERROR - CANNOT USE KEYWORD AS VARIABLE NAME (show line)
+                System.err.printf((Constants.KEYWORD_AS_VARIABLE_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
             if(!verifyValue(type, value)){
                 //TODO ERROR - VALUE DOES NOT MATCH VARIABLE TYPE (show line)
+                System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
             VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
             if(!VariableContainer.addVarToCurrentScope(var)){
                 //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
+                System.err.printf((Constants.NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
         }

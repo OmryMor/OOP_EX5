@@ -1,24 +1,50 @@
 package ex5.a;
 
 import ex5.a.Containers.Scope;
-import ex5.a.lineTypeVerifiers.LineTypeVerifier;
+import ex5.a.Containers.VariableAttributes;
+import ex5.a.lineTypeVerifiers.*;
+import ex5.utils.Constants;
+import ex5.utils.LineNumberTuple;
 
 import java.util.LinkedList;
 
 public class LineVerifier {
 
-    private LinkedList<Scope> scopes;
-    private LinkedList<LineTypeVerifier> verifiers;
-    private Scope curScope;
+    private final LinkedList<LineTypeVerifier> verifiers = new LinkedList<>();
 
-    LineVerifier() {
-        verifiers = new LinkedList<>();
-//        curScope = new Scope(null, false);
+    public LineVerifier() {
+        VarDeclarationLineVerifier varDeclarationLineVerifier = new VarDeclarationLineVerifier();
+        verifiers.add(varDeclarationLineVerifier);
+        MethodLineVerifier methodLineVerifier = new MethodLineVerifier();
+        verifiers.add(methodLineVerifier);
+        WhileLineVerifier whileLineVerifier = new WhileLineVerifier();
+//        verifiers.add(whileLineVerifier);
+        IfLineVerifier ifLineVerifier = new IfLineVerifier();
+//        verifiers.add(ifLineVerifier);
+        VarAssignmentLineVerifier varAssignmentLineVerifier = new VarAssignmentLineVerifier();
+//        verifiers.add(varAssignmentLineVerifier);
+        BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
+//        verifiers.add(bracketLineVerifier);
+        ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
+//        verifiers.add(returnLineVerifier);
     }
 
-    public boolean VerifyNextLine(String line) {
+    public boolean verifyLine(LineNumberTuple line) {
 
-        // boolean isMethod = line is a method declaration;
+        boolean isVerified = false;
+        for(LineTypeVerifier lineTypeVerifier : verifiers){
+            if(lineTypeVerifier.verifyLine(line)){
+                isVerified = true;
+            }
+        }
+        if(!isVerified){
+            //TODO SYNTAX ERROR
+            System.err.printf((Constants.SYNTAX_ERROR), line.lineNumber);
+            return false;
+        }
+
+
+    // boolean isMethod = line is a method declaration;
 
         // if ends with '{' : openNewScope(line);
 

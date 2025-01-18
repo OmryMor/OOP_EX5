@@ -5,5 +5,5 @@ import ex5.a.Containers.Scope;
 
 public interface LineTypeVerifier {
 
-    boolean verifyLine(Scope scope, LineNumberTuple lineNumberTuple);
+    boolean verifyLine(LineNumberTuple lineNumberTuple);
 }
