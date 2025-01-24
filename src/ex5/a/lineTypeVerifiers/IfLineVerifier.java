@@ -12,12 +12,20 @@ import ex5.utils.RegexConstants;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is an if statement.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class IfLineVerifier implements LineTypeVerifier{
 
     private final int expressionStringGroup = 1;
     private final int singleExpressionGroup = 0;
 
-
+    /**
+     * Verify that the line is an if statement.
+     * @param lineNumberTuple the line number and the line content
+     * @return true if the line is an if statement, false otherwise
+     */
     @Override
     public boolean verifyLine(LineNumberTuple lineNumberTuple) {
         Pattern pattern = Pattern.compile(RegexConstants.IF_STATEMENT_REGEX);
@@ -38,7 +46,9 @@ public class IfLineVerifier implements LineTypeVerifier{
         return true;
     }
 
+
     private boolean verifyExpressions(String expressionString, int lineNumber){
+
         if(expressionString == null){
             //TODO no expression in if statement
             System.err.printf((Constants.EMPTY_EXPRESSION_ERROR), lineNumber);

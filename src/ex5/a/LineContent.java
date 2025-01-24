@@ -1,5 +1,8 @@
 package ex5.a;
 
+/**
+ * This enum represents the different types of content that a line can have.
+ */
 public enum LineContent {
     CLOSE_BRACKET,
     METHOD_DECLARATION,

@@ -6,10 +6,22 @@ import ex5.a.LineContent;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 
+/**
+ * This class verifies that a line is a closing bracket.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class BracketLineVerifier implements LineTypeVerifier {
+
+    private static final String OPEN_BRACKET = "{";
+
+    /**
+     * Verify that the line is a closing bracket.
+     * @param lineNumberTuple the line number and the line content
+     * @return true if the line is a closing bracket, false otherwise
+     */
     @Override
     public boolean verifyLine(LineNumberTuple lineNumberTuple) {
-        if(!lineNumberTuple.line.trim().equals("}")){
+        if(!lineNumberTuple.line.trim().equals(OPEN_BRACKET)){
             return false;
         }
         if(!VariableContainer.scopeOut()){

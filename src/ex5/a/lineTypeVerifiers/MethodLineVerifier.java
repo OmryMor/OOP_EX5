@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is a method declaration.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class MethodLineVerifier implements LineTypeVerifier{
 
     private final int methodNameGroup = 1;
@@ -20,9 +24,11 @@ public class MethodLineVerifier implements LineTypeVerifier{
     private final int varTypeGroup = 2;
     private final int varNameGroup = 3;
 
-
-
-
+    /**
+     * Verify that the line is a method declaration.
+     * @param lineNumberTuple the line number and the line content
+     * @return true if the line is a method declaration, false otherwise
+     */
     @Override
     public boolean verifyLine(LineNumberTuple lineNumberTuple) {
         Pattern pattern = Pattern.compile(RegexConstants.METHOD_DECLARATION_REGEX);
@@ -54,6 +60,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
     }
 
     private List<VariableAttributes> getParametersList(String parameterString){
+        // This method receives a string of parameters and returns a list of VariableAttributes
         List<VariableAttributes> parameterList = new ArrayList<>();
         if(parameterString == null) parameterString = "";
         Pattern pattern = Pattern.compile(RegexConstants.SINGLE_METHOD_PARAMETER_REGEX);
@@ -73,6 +80,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
     }
 
     private VariableType getType(String type){
+        // This method receives a string of a type and returns the corresponding VariableType
         switch (type){
             case Constants.INT_KEYWORD:
                 return VariableType.INT;

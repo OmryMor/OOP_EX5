@@ -13,12 +13,22 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is a variable declaration line.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class VarDeclarationLineVerifier implements LineTypeVerifier{
 
-    private int varDefinitionGroup = 3;
-    private int singleDeclarationNameGroup = 1;
-    private int singleDeclarationValueGroup = 6;
+    private final int varDefinitionGroup = 3;
+    private final int singleDeclarationNameGroup = 1;
+    private final int singleDeclarationValueGroup = 6;
+    private final int varTypeCaptureGroup = 2;
 
+    /**
+     * Verify that the line is a variable declaration line.
+     * @param lineNumberTuple the line number and the line content
+     * @return true if the line is a variable declaration line, false otherwise
+     */
     @Override
     public boolean verifyLine( LineNumberTuple lineNumberTuple) {
         Pattern pattern = Pattern.compile(RegexConstants.VARIABLE_DECLARATION_REGEX);
@@ -26,7 +36,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         if (!matcher.find()) {
             return false;
         }
-        VariableType type = getType(matcher.group(RegexConstants.VARIABLE_TYPE_CAPTURE_GROUP));
+        VariableType type = getType(matcher.group(varTypeCaptureGroup));
         boolean isFinal = lineNumberTuple.line.contains(Constants.FINAL_KEYWORD);
 
         pattern = Pattern.compile(RegexConstants.SINGLE_DECLARATION_REGEX);
@@ -62,6 +72,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
     }
 
     private VariableType getType(String type){
+        // This method receives a string of a type and returns the corresponding VariableType
         switch (type){
             case Constants.INT_KEYWORD:
                 return VariableType.INT;

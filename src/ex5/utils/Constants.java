@@ -1,7 +1,14 @@
 package ex5.utils;
 
+/**
+ * This class contains all the constants used in the program.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class Constants {
 
+    /**
+     * Constants for the different types of variables that can be declared.
+     */
     public static final String
         INT_KEYWORD = "int",
         DOUBLE_KEYWORD = "double",
@@ -17,6 +24,9 @@ public class Constants {
         VOID_KEYWORD = "void"
                 ;
 
+    /**
+     * Array of all the keywords in the language.
+     */
     public static final String[] KEYWORDS = {
         INT_KEYWORD,
         DOUBLE_KEYWORD,
@@ -32,12 +42,18 @@ public class Constants {
         VOID_KEYWORD
     };
 
+    /**
+     * Constants for the different types of output codes.
+     */
     public static final int
         CODE_LEGAL = 0,
         CODE_ILLEGAL = 1,
         IO_ERROR = 2
                 ;
 
+    /**
+     * Constants for the different types of errors.
+     */
     public static final String
         INCORRECT_ENDING_SUFFIX = "There is a line that does not end with a semicolon or curly brace (line %d)\n",
         FINAL_VARIABLE_NOT_INITIALIZED_ERROR = "Final variable must be initialized with value (line %d)\n",

@@ -7,17 +7,25 @@ import ex5.a.LineContent;
 import ex5.a.VariableType;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
-import ex5.a.Containers.Scope;
 import ex5.utils.RegexConstants;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is a while statement.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class WhileLineVerifier implements LineTypeVerifier{
 
     private final int expressionStringGroup = 1;
     private final int singleExpressionGroup = 0;
 
+    /**
+     * Verify that the line is a while statement.
+     * @param lineNumberTuple the line number and the line content
+     * @return true if the line is a while statement, false otherwise
+     */
     @Override
     public boolean verifyLine(LineNumberTuple lineNumberTuple) {
         Pattern pattern = Pattern.compile(RegexConstants.WHILE_STATEMENT_REGEX);
@@ -41,6 +49,7 @@ public class WhileLineVerifier implements LineTypeVerifier{
     }
 
     private boolean verifyExpressions(String expressionString, int lineNumber){
+        // This method verifies that the expressions in the while statement are valid
         if(expressionString == null){
             //TODO no expression in if statement
             System.err.printf((Constants.EMPTY_EXPRESSION_ERROR), lineNumber);

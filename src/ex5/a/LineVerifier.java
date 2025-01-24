@@ -1,17 +1,23 @@
 package ex5.a;
 
-import ex5.a.Containers.Scope;
-import ex5.a.Containers.VariableAttributes;
 import ex5.a.lineTypeVerifiers.*;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 
 import java.util.LinkedList;
 
+/**
+ * This class verifies that a line is of a valid type.
+ * @Author Omry Mor, Ruth Schiller
+ */
 public class LineVerifier {
 
     private final LinkedList<LineTypeVerifier> verifiers = new LinkedList<>();
 
+    /**
+     * Constructor for the LineVerifier class. Adds all the line type verifiers to the list of verifiers.
+     * and adds them to the list of verifiers to be used in the verifyLine method.
+     */
     public LineVerifier() {
         VarDeclarationLineVerifier varDeclarationLineVerifier = new VarDeclarationLineVerifier();
         verifiers.add(varDeclarationLineVerifier);
@@ -24,13 +30,17 @@ public class LineVerifier {
         VarAssignmentLineVerifier varAssignmentLineVerifier = new VarAssignmentLineVerifier();
 //        verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
-//        verifiers.add(bracketLineVerifier);
+        verifiers.add(bracketLineVerifier);
         ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
-//        verifiers.add(returnLineVerifier);
+        verifiers.add(returnLineVerifier);
     }
 
+    /**
+     * This method verifies that a line is of a valid type.
+     * @param line the line to be verified
+     * @return true if the line is of a valid type, false otherwise
+     */
     public boolean verifyLine(LineNumberTuple line) {
-
         boolean isVerified = false;
         for(LineTypeVerifier lineTypeVerifier : verifiers){
             if(lineTypeVerifier.verifyLine(line)){
