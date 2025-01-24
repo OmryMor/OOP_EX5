@@ -71,27 +71,9 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         return true;
     }
 
-    private VariableType getType(String type){
-        // This method receives a string of a type and returns the corresponding VariableType
-        switch (type){
-            case Constants.INT_KEYWORD:
-                return VariableType.INT;
-            case Constants.DOUBLE_KEYWORD:
-                return VariableType.DOUBLE;
-            case Constants.STRING_KEYWORD:
-                return VariableType.STRING;
-            case Constants.BOOLEAN_KEYWORD:
-                return VariableType.BOOLEAN;
-            case Constants.CHAR_KEYWORD:
-                return VariableType.CHAR;
-            default:
-                return null;
-        }
-    }
-
     private boolean verifyValue(VariableType type, String value){
+        //This method checks if a value matches a variable type
         switch (type){
-
             case INT:
                 try {
                     Integer.parseInt(value);
@@ -139,6 +121,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
     }
 
     private boolean isSafeWord(String word){
+        //This method checks if a word is a reserved keyword
         return Arrays.asList(Constants.KEYWORDS).contains(word);
     }
 }

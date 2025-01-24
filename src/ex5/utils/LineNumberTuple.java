@@ -2,7 +2,7 @@ package ex5.utils;
 
 /**
  * This class represents a tuple of a line number and a line.
- * @Author Omry Mor, Ruth Schiller
+ * @author Omry Mor, Ruth Schiller
  */
 public class LineNumberTuple {
 

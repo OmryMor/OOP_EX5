@@ -78,22 +78,4 @@ public class MethodLineVerifier implements LineTypeVerifier{
         }
         return parameterList;
     }
-
-    private VariableType getType(String type){
-        // This method receives a string of a type and returns the corresponding VariableType
-        switch (type){
-            case Constants.INT_KEYWORD:
-                return VariableType.INT;
-            case Constants.DOUBLE_KEYWORD:
-                return VariableType.DOUBLE;
-            case Constants.STRING_KEYWORD:
-                return VariableType.STRING;
-            case Constants.BOOLEAN_KEYWORD:
-                return VariableType.BOOLEAN;
-            case Constants.CHAR_KEYWORD:
-                return VariableType.CHAR;
-            default:
-                return null;
-        }
-    }
 }

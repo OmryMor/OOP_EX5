@@ -37,12 +37,6 @@ public class Scope {
         this.inMethod = inMethod;
     }
 
-//    public boolean AddMethodToScope(String name, MethodAttributes storage){
-//        if (findMethodInScope(name) != null) return false;
-//        methods.put(name, storage);
-//        return true;
-//    }
-
     /**
      * Add a variable to the current scope
      * @param storage the variable to add
@@ -53,12 +47,6 @@ public class Scope {
         vars.put(storage.name, storage);
         return true;
     }
-//
-//    public MethodAttributes findMethodInScope(String name){
-//        if (methods.containsKey(name)) return methods.get(name);
-//        else if (parent == null) return null;
-//        else return parent.findMethodInScope(name);
-//    }
 
     /**
      * Find a variable in the current scope

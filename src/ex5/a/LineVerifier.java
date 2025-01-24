@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 /**
  * This class verifies that a line is of a valid type.
- * @Author Omry Mor, Ruth Schiller
+ * @author Omry Mor, Ruth Schiller
  */
 public class LineVerifier {
 

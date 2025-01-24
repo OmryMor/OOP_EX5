@@ -1,6 +1,16 @@
 package ex5.a.lineTypeVerifiers;
 
+import ex5.a.Containers.PreviousStatementContainer;
+import ex5.a.Containers.VariableAttributes;
+import ex5.a.Containers.VariableContainer;
+import ex5.a.LineContent;
+import ex5.a.VariableType;
+import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
+import ex5.utils.RegexConstants;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This interface is implemented by classes that verify the type of a line in the code.
@@ -9,9 +19,85 @@ import ex5.utils.LineNumberTuple;
 public interface LineTypeVerifier {
 
     /**
+     * The group in the regex that contains the expression string
+     */
+    int singleExpressionGroup = 0;
+
+    /**
      * Verify that the line is of the correct type.
      * @param lineNumberTuple the line number and the line content
      * @return true if the line is of the correct type, false otherwise
      */
     boolean verifyLine(LineNumberTuple lineNumberTuple);
+
+    /**
+     * Verify that the expressions in the line are valid.
+     * @param expressionString the expression string
+     * @param lineNumber the line number
+     * @param lineType the type of the line
+     * @return true if the expressions are valid, false otherwise
+     */
+    default boolean verifyExpressions(String expressionString, int lineNumber, LineContent lineType){
+        if(expressionString == null){
+            //TODO no expression in statement
+            System.err.printf((Constants.EMPTY_EXPRESSION_ERROR), lineNumber);
+            return false;
+        }
+        Pattern pattern = Pattern.compile(RegexConstants.CONDITION_REGEX);
+        Matcher matcher = pattern.matcher(expressionString);
+        while (matcher.find()){
+            if(matcher.group(singleExpressionGroup).equals(Constants.TRUE_KEYWORD) ||
+                    matcher.group(singleExpressionGroup).equals(Constants.FALSE_KEYWORD)){
+                continue;
+            }
+            try {
+                Integer.parseInt(matcher.group(singleExpressionGroup));  // Check if it's an integer
+                continue;
+            } catch (NumberFormatException e) {
+                try {
+                    Double.parseDouble(matcher.group(singleExpressionGroup));  // Check if it's a double
+                    continue;
+                } catch (NumberFormatException ex) {
+                    // Not a double either, do nothing
+                }
+            }
+            VariableAttributes var = VariableContainer.getVar(matcher.group(singleExpressionGroup));
+            if(var == null){
+                //TODO UNKOW EXPRESSION ERROR
+                System.err.printf((Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON), lineNumber);
+
+                return false;
+            }
+            if(var.type != VariableType.BOOLEAN &&
+                    var.type != VariableType.DOUBLE &&
+                    var.type != VariableType.INT){
+                //TODO INVALID EXPRESSION TYPE
+                System.err.printf((Constants.ILLEGAL_TYPE_IN_EXPRESSION), lineNumber);
+                return false;
+            }
+            if(!var.hasValue){
+                //TODO variable not initialized error
+                System.err.printf((Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON), lineNumber);
+                return false;
+            }
+        }
+        PreviousStatementContainer.setPrevStatement(lineType);
+        return true;
+    }
+
+    /**
+     * Get the variable type from a string.
+     * @param type the string
+     * @return the variable type
+     */
+    default VariableType getType(String type){
+        return switch (type) {
+            case Constants.INT_KEYWORD -> VariableType.INT;
+            case Constants.DOUBLE_KEYWORD -> VariableType.DOUBLE;
+            case Constants.STRING_KEYWORD -> VariableType.STRING;
+            case Constants.BOOLEAN_KEYWORD -> VariableType.BOOLEAN;
+            case Constants.CHAR_KEYWORD -> VariableType.CHAR;
+            default -> null;
+        };
+    }
 }
