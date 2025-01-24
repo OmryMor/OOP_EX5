@@ -1,7 +1,5 @@
 package ex5.main;
 
-import ex5.a.VerifyDocument;
-
 /**
  * This class is the main class of the program.
  * It verifies a document and prints the result.

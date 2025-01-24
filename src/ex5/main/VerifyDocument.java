@@ -1,4 +1,4 @@
-package ex5.a;
+package ex5.main;
 
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;

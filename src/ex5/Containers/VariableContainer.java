@@ -1,4 +1,4 @@
-package ex5.a.Containers;
+package ex5.Containers;
 
 /**
  * This class holds all data for all variables in the script.

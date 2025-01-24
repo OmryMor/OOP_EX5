@@ -1,4 +1,4 @@
-package ex5.a;
+package ex5.utils;
 
 /**
  * This enum represents the different types of variables that can be declared.

@@ -1,6 +1,6 @@
-package ex5.a.Containers;
+package ex5.Containers;
 
-import ex5.a.LineContent;
+import ex5.utils.LineContent;
 
 /**
  * This class holds the previous statement in the script.

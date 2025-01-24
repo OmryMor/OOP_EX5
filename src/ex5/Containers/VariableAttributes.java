@@ -1,6 +1,6 @@
-package ex5.a.Containers;
+package ex5.Containers;
 
-import ex5.a.VariableType;
+import ex5.utils.VariableType;
 
 /**
  * This class represents the properties of a variable.

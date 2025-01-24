@@ -1,11 +1,11 @@
-package ex5.a.lineTypeVerifiers;
+package ex5.lineTypeVerifiers;
 
-import ex5.a.Containers.PreviousStatementContainer;
-import ex5.a.Containers.VariableAttributes;
-import ex5.a.Containers.VariableContainer;
-import ex5.a.LineContent;
+import ex5.Containers.PreviousStatementContainer;
+import ex5.Containers.VariableAttributes;
+import ex5.Containers.VariableContainer;
+import ex5.utils.LineContent;
 import ex5.utils.LineNumberTuple;
-import ex5.a.VariableType;
+import ex5.utils.VariableType;
 import ex5.utils.Constants;
 import ex5.utils.RegexConstants;
 
