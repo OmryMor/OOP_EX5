@@ -9,6 +9,7 @@ public class RegexConstants {
      * The regexes used throughout the program.
      */
     public static final String
+
             COMMENT_REGEX = "^\\s*$|^\\s*//",
 
             CODE_ENDLINE_REGEX = ".*[{};]\\s*$",
@@ -30,7 +31,6 @@ public class RegexConstants {
                     "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|" +
                     "true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?)\\s*;",
 //String.format("(%s)((%s,\\s*)*%s);$",VAR_TYPE_REGEX, SINGLE_DECLARATION_REGEX, SINGLE_DECLARATION_REGEX),
-
             CONDITION_REGEX = "true|false|[-+]?[\\d]*[.]?[\\d]+|" + VAR_NAME_REGEX,
 
             CHAINED_CONDITION_REGEX = String.format("(%s)((\\s*(\\|\\||&&)\\s*(%s))*)",
@@ -52,7 +52,25 @@ public class RegexConstants {
             METHOD_DECLARATION_REGEX = String.format("^void\\s+%s\\s*\\(((\\s*%s+\\s*))?\\)\\s*\\{$",
                     METHOD_NAME_REGEX, METHOD_PARAMETERS_REGEX),
 
-            VAR_ASSIGNMENT_REGEX = "",
+            VAR_ASSIGNMENT_REGEX = "^\\s*" +
+                    "((([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)" +
+                    "((\\s*[=]\\s*)" +
+                    "([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|true|false|" +
+                    "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))" +
+                    "\\s*,\\s*)" +
+                    "*" +
+                    "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)" +
+                    "((\\s*[=]\\s*)" +
+                    "([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|true|false|" +
+                    "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*))))" +
+                    "\\s*;", // TODO no $?
+
+            SINGLE_VAR_ASSIGN_REGEX = "\\s*" +
+                    "(([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)" +
+                    "((\\s*[=]\\s*)" +
+                    "([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|true|false|" +
+                    "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))\\s*)",
+
             METHOD_CALL_REGEX = "",
 
             RETURN_REGEX = "^\\s*return\\s*;\\s*$"

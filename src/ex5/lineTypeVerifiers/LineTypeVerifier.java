@@ -85,6 +85,56 @@ public interface LineTypeVerifier {
         return true;
     }
 
+
+    default boolean verifyValue(VariableType type, String value){
+        //This method checks if a value matches a variable type
+        switch (type){
+            case INT:
+                try {
+                    Integer.parseInt(value);
+                } catch (NumberFormatException e){
+                    return false;
+                }
+                break;
+
+            case DOUBLE:
+                try {
+                    Double.parseDouble(value);
+                } catch (NumberFormatException e){
+                    return false;
+                }
+                break;
+
+            case STRING:
+                if (!value.startsWith("\"") || !value.endsWith("\"")){
+                    return false;
+                }
+                break;
+
+            case BOOLEAN:
+                if (!value.equals(Constants.TRUE_KEYWORD) && !value.equals(Constants.FALSE_KEYWORD)){
+                    try {
+                        Double.parseDouble(value);
+                    } catch (NumberFormatException e){
+                        return false;
+                    }
+                }
+                break;
+
+            case CHAR:
+                if (!value.startsWith("'") || !value.endsWith("'") || value.length() != 3){
+                    return false;
+                }
+                break;
+
+            case VARIABLE:
+                VariableAttributes newVar = VariableContainer.getVar(value);
+                if(newVar == null || newVar.type != type) return false;
+                break;
+        }
+        return true;
+    }
+
     /**
      * Get the variable type from a string.
      * @param type the string

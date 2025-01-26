@@ -47,6 +47,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
             String value = matcher.group(singleDeclarationValueGroup);
             boolean hasValue = value != null;
             if(!hasValue && isFinal){
+                //TODO ERROR - CANNOT DECLARE UNINITIALIZED FINAL VAR (show line)
                 System.err.printf((Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
@@ -63,7 +64,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
             VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
             if(!VariableContainer.addVarToCurrentScope(var)){
                 //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
-                System.err.printf((Constants.NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
+                System.err.printf((Constants.VAR_NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
         }
@@ -71,54 +72,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         return true;
     }
 
-    private boolean verifyValue(VariableType type, String value){
-        //This method checks if a value matches a variable type
-        switch (type){
-            case INT:
-                try {
-                    Integer.parseInt(value);
-                } catch (NumberFormatException e){
-                    return false;
-                }
-                break;
 
-            case DOUBLE:
-                try {
-                    Double.parseDouble(value);
-                } catch (NumberFormatException e){
-                    return false;
-                }
-                break;
-
-            case STRING:
-                if (!value.startsWith("\"") || !value.endsWith("\"")){
-                    return false;
-                }
-                break;
-
-            case BOOLEAN:
-                if (!value.equals(Constants.TRUE_KEYWORD) && !value.equals(Constants.FALSE_KEYWORD)){
-                    try {
-                        Double.parseDouble(value);
-                    } catch (NumberFormatException e){
-                        return false;
-                    }
-                }
-                break;
-
-            case CHAR:
-                if (!value.startsWith("'") || !value.endsWith("'") || value.length() != 3){
-                    return false;
-                }
-                break;
-
-            case VARIABLE:
-                VariableAttributes newVar = VariableContainer.getVar(value);
-                if(newVar == null || newVar.type != type) return false;
-                break;
-        }
-        return true;
-    }
 
     private boolean isSafeWord(String word){
         //This method checks if a word is a reserved keyword
