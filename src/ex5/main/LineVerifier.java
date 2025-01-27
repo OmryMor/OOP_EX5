@@ -12,7 +12,13 @@ import java.util.LinkedList;
  */
 public class LineVerifier {
 
+    /**
+     * A boolean that indicates if this is the first pass of the verifier.
+     */
+    public static boolean isFirstPass = true;
+
     private final LinkedList<LineTypeVerifier> verifiers = new LinkedList<>();
+    private final LinkedList<LineTypeVerifier> firstPassVerifiers = new LinkedList<>();
 
     /**
      * Constructor for the LineVerifier class. Adds all the line type verifiers to the list of verifiers.
@@ -21,8 +27,10 @@ public class LineVerifier {
     public LineVerifier() {
         VarDeclarationLineVerifier varDeclarationLineVerifier = new VarDeclarationLineVerifier();
         verifiers.add(varDeclarationLineVerifier);
+        firstPassVerifiers.add(varDeclarationLineVerifier);
         MethodLineVerifier methodLineVerifier = new MethodLineVerifier();
         verifiers.add(methodLineVerifier);
+        firstPassVerifiers.add(methodLineVerifier);
         WhileLineVerifier whileLineVerifier = new WhileLineVerifier();
         verifiers.add(whileLineVerifier);
         IfLineVerifier ifLineVerifier = new IfLineVerifier();
@@ -31,6 +39,7 @@ public class LineVerifier {
         verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
         verifiers.add(bracketLineVerifier);
+        firstPassVerifiers.add(bracketLineVerifier);
         ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
         verifiers.add(returnLineVerifier);
         MethodCallVerifier methodCallVerifier = new MethodCallVerifier();
@@ -43,6 +52,11 @@ public class LineVerifier {
      * @return true if the line is of a valid type, false otherwise
      */
     public boolean verifyLine(LineNumberTuple line) {
+        isFirstPass = true;
+        for(LineTypeVerifier lineTypeVerifier : firstPassVerifiers){
+           lineTypeVerifier.verifyLine(line);
+        }
+        isFirstPass = false;
         boolean isVerified = false;
         for(LineTypeVerifier lineTypeVerifier : verifiers){
             if(lineTypeVerifier.verifyLine(line)){
@@ -54,34 +68,6 @@ public class LineVerifier {
             System.err.printf((Constants.SYNTAX_ERROR), line.lineNumber);
             return false;
         }
-
-
-    // boolean isMethod = line is a method declaration;
-
-        // if ends with '{' : openNewScope(line);
-
-        // check if line is valid by sending it to each line checking class
-
-        // if ends with '}' : closeCurScope(line);
-
         return true;
     }
-
-//    private void openNewScope(String line, boolean isMethod) {
-//
-//        // change scopes:
-//        // Scope tmpScope = curScope;
-//        // curScope = new Scope(parent = tmpScope, isMethod)
-//
-//        // if this line is a method declaration, search/add method in curScope.parent (AFTER changing scopes)
-//        // if this line has vars, add them to curScope
-//    }
-//
-//    private void closeCurScope(String line) {
-//
-//        // if this line has vars, search/add them in cur scope BEFORE changing scopes! (this happens in calling func)
-//
-//        // change scopes:
-//        curScope = curScope.parent;
-//    }
 }

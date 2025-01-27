@@ -3,6 +3,7 @@ package ex5.lineTypeVerifiers;
 import ex5.Containers.PreviousStatementContainer;
 import ex5.Containers.VariableAttributes;
 import ex5.Containers.VariableContainer;
+import ex5.main.LineVerifier;
 import ex5.utils.LineContent;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.VariableType;
@@ -61,11 +62,13 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
-            VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
-            if(!VariableContainer.addVarToCurrentScope(var)){
-                //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
-                System.err.printf((Constants.VAR_NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
-                return false;
+            if(LineVerifier.isFirstPass){
+                VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
+                if(!VariableContainer.addVarToCurrentScope(var)){
+                    //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
+                    System.err.printf((Constants.VAR_NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
+                    return false;
+                }
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.VARIABLE_DECLARATION);

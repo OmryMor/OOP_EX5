@@ -70,6 +70,7 @@ public class Constants {
         METHOD_NAME_EXISTS_ERROR = "There already exists a method with this name (line %d)\n",
         METHOD_NOT_ENDING_WITH_RETURN_ERROR = "Method did not end with return statement (line %d)\n",
         CALL_NOT_IN_FUNCTION = "Statement can't be called outside a method body (line %d)\n",
+        INVALID_VAR_ASSIGNMENT = "Attempt to assign value of invalid variable (line %d)\n",
         METHOD_NOT_DECLARED = "Method has not been declared (line %d)\n",
         METHOD_PARAMETERS_MISMATCH = "Method parameters amount do not match method signature (line %d)\n",
         METHOD_CALL_INVALID = "Parameters given to method dont match methods signature (line %d)\n"

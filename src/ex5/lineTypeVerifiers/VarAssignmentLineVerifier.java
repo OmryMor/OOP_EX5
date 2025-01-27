@@ -56,17 +56,20 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
             else if (!verifyValue(varAttr.type, value))
             {
                 // TODO err - assign wrong type
-                System.err.printf((Constants.FINAL_VAR_ASSIGN_ERROR), lineNumberTuple.lineNumber);
+                System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
             }
             // assign to var
             else
             {
-                VariableAttributes newVar = new VariableAttributes(
-                        varAttr.type,
-                        true,
-                        false,
-                        varAttr.name);
-                VariableContainer.addVarToCurrentScope(newVar);
+                if (VariableContainer.getVarInScope(varAttr.name) == null) {
+                    VariableAttributes newVar = new VariableAttributes(
+                            varAttr.type,
+                            true,
+                            false,
+                            varAttr.name);
+                    VariableContainer.addVarToCurrentScope(newVar);
+                }
+                else varAttr.hasValue = true;
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.VAR_ASSIGNMENT);

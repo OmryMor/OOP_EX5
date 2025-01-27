@@ -1,6 +1,7 @@
 package ex5.lineTypeVerifiers;
 
 import ex5.Containers.*;
+import ex5.main.LineVerifier;
 import ex5.utils.LineContent;
 import ex5.utils.VariableType;
 import ex5.utils.Constants;
@@ -47,13 +48,15 @@ public class MethodLineVerifier implements LineTypeVerifier{
             System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
             return false;
         }
-        MethodAttributes method = new MethodAttributes(methodName, parametersList);
-
-        if(!MethodsContainer.AddMethod(method)){
-            //TODO Method with name already exists
-            System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
-            return false;
+        if(LineVerifier.isFirstPass){
+            MethodAttributes method = new MethodAttributes(methodName, parametersList);
+            if(!MethodsContainer.AddMethod(method)){
+                //TODO Method with name already exists
+                System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
+                return false;
+            }
         }
+
         PreviousStatementContainer.setPrevStatement(LineContent.METHOD_DECLARATION);
         return true;
     }

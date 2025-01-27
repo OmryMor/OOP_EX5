@@ -2,6 +2,7 @@ package ex5.lineTypeVerifiers;
 
 import ex5.Containers.PreviousStatementContainer;
 import ex5.Containers.VariableContainer;
+import ex5.main.LineVerifier;
 import ex5.utils.LineContent;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
@@ -29,8 +30,7 @@ public class BracketLineVerifier implements LineTypeVerifier {
             System.err.printf((Constants.ILLEGAL_SCOPE_ERROR), lineNumberTuple.lineNumber);
             return false;
         }
-
-        if(VariableContainer.inGlobalScope()){
+        if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
             if(PreviousStatementContainer.getPrevStatement() != LineContent.RETURN){
                 //TODO last command wasnt return statement error
                 System.err.printf((Constants.METHOD_NOT_ENDING_WITH_RETURN_ERROR), lineNumberTuple.lineNumber);
