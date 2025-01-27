@@ -20,10 +20,12 @@ public class RegexConstants {
 
             VAR_NAME_REGEX = "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)",
 
-            VAR_VALUE_REGEX = "((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|" +
-                    VAR_NAME_REGEX+"))?",
+            VAR_VALUE_REGEX = "([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|" +
+                    VAR_NAME_REGEX+")",
 
-            SINGLE_DECLARATION_REGEX = String.format("(%s)(%s)", VAR_NAME_REGEX, VAR_VALUE_REGEX),
+            VAR_VALUE_ASSIGNMENT_REGEX = "((\\s*[=]\\s*)"+VAR_VALUE_REGEX + ")?",
+
+            SINGLE_DECLARATION_REGEX = String.format("(%s)(%s)", VAR_NAME_REGEX, VAR_VALUE_ASSIGNMENT_REGEX),
 
             VARIABLE_DECLARATION_REGEX = "^(final\\s+)?(int|double|String|boolean|char)\\s+((([A-Za-z]" +
                     "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"" +
@@ -75,7 +77,7 @@ public class RegexConstants {
                     "\\(\\s*(([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|" +
                     "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*))(\\s*,\\s*" +
                     "([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|([A-Za-z][A-Za-z0-9_]*|" +
-                    "_[A-Za-z0-9][A-Za-z0-9_]*)))*\\s*)?)\\s*\\)\\s*;\\s*$",
+                    "_[A-Za-z0-9][A-Za-z0-9_]*)))*\\s*)?\\s*\\)\\s*;\\s*$",
 
             RETURN_REGEX = "^\\s*return\\s*;\\s*$"
                     ;

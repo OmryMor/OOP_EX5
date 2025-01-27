@@ -85,7 +85,12 @@ public interface LineTypeVerifier {
         return true;
     }
 
-
+    /**
+     * Verify that a value matches a variable type.
+     * @param type the variable type
+     * @param value the value string
+     * @return true if the value matches the variable type, false otherwise
+     */
     default boolean verifyValue(VariableType type, String value){
         //This method checks if a value matches a variable type
         switch (type){
