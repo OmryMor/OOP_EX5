@@ -28,7 +28,7 @@ public class LineVerifier {
         IfLineVerifier ifLineVerifier = new IfLineVerifier();
         verifiers.add(ifLineVerifier);
         VarAssignmentLineVerifier varAssignmentLineVerifier = new VarAssignmentLineVerifier();
-//        verifiers.add(varAssignmentLineVerifier);
+        verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
         verifiers.add(bracketLineVerifier);
         ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
