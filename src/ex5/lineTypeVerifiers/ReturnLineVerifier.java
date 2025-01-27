@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * This class verifies that a line is a return statement.
  * @author Omry Mor, Ruth Schiller
  */
-public class ReturnLineVerifier implements  LineTypeVerifier{
+public class ReturnLineVerifier implements LineTypeVerifier{
 
     /**
      * Verify that the line is a return statement.
@@ -29,9 +29,8 @@ public class ReturnLineVerifier implements  LineTypeVerifier{
             return false;
         }
         if(VariableContainer.inGlobalScope()){
-            //todo it is being called outside of a function -> error
-            System.err.printf((Constants.CALL_NOT_IN_FUNCTION), lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
         PreviousStatementContainer.setPrevStatement(LineContent.RETURN);
         return true;

@@ -48,26 +48,25 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
             String value = matcher.group(singleDeclarationValueGroup);
             boolean hasValue = value != null;
             if(!hasValue && isFinal){
-                //TODO ERROR - CANNOT DECLARE UNINITIALIZED FINAL VAR (show line)
-                System.err.printf((Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR), lineNumberTuple.lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR,
+                        lineNumberTuple.lineNumber);
+                // TODO return false;
             }
             if(isSafeWord(name)){
-                //TODO ERROR - CANNOT USE KEYWORD AS VARIABLE NAME (show line)
-                System.err.printf((Constants.KEYWORD_AS_VARIABLE_ERROR), lineNumberTuple.lineNumber);
-                return false;
+                throw new SyntaxErrorException(Constants.KEYWORD_AS_VARIABLE_ERROR,
+                        lineNumberTuple.lineNumber);
+                // TODO return false;
             }
             if(hasValue && !verifyValue(type, value)){
-                //TODO ERROR - VALUE DOES NOT MATCH VARIABLE TYPE (show line)
-                System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNumberTuple.lineNumber);
+                // TODO return false;
             }
             if(LineVerifier.isFirstPass){
                 VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
                 if(!VariableContainer.addVarToCurrentScope(var)){
-                    //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME
-                    System.err.printf((Constants.VAR_NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
-                    return false;
+                    throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
+                            lineNumberTuple.lineNumber);
+                    // TODO return false;
                 }
             }
         }

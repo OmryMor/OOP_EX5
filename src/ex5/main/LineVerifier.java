@@ -54,7 +54,11 @@ public class LineVerifier {
 
         if(isFirstPass){
             for(LineTypeVerifier lineTypeVerifier : firstPassVerifiers){
-                lineTypeVerifier.verifyLine(line);
+                try {
+                    lineTypeVerifier.verifyLine(line);
+                } catch (IncorrectLineException e) {
+                    System.err.println(e.getMessage());
+                }
             }
         }
         else{

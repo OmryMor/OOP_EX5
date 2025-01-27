@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * This class verifies that a line is an if statement.
  * @author Omry Mor, Ruth Schiller
  */
-public class IfLineVerifier implements LineTypeVerifier{
+public class IfLineVerifier implements LineTypeVerifier {
 
     private final int expressionStringGroup = 1;
 
@@ -30,12 +30,15 @@ public class IfLineVerifier implements LineTypeVerifier{
             return false;
         }
         if(VariableContainer.inGlobalScope()){
-            //todo it is being called outside of a function -> error
-            System.err.printf((Constants.CALL_NOT_IN_FUNCTION), lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
         VariableContainer.scopeIn();
         String expressionString = matcher.group(expressionStringGroup);
-        return verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.IF_STATEMENT);
+        try{
+            return verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.IF_STATEMENT);
+        } catch (IncorrectLineException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

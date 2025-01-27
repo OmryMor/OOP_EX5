@@ -43,20 +43,17 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
             VariableAttributes varAttr = VariableContainer.getVar(name);
             if (varAttr == null)
             {
-                // TODO err - no var with such name in scope
-                System.err.printf((Constants.UNDECLARED_VAR_ERROR), lineNumberTuple.lineNumber);
+                throw new LanguageRuleException(Constants.UNDECLARED_VAR_ERROR, lineNumberTuple.lineNumber);
             }
             // check if final!
             else if (varAttr.isFinal)
             {
-                // TODO err - assign final var
-                System.err.printf((Constants.FINAL_VAR_ASSIGN_ERROR), lineNumberTuple.lineNumber);
+                throw new LanguageRuleException(Constants.FINAL_VAR_ASSIGN_ERROR, lineNumberTuple.lineNumber);
             }
             // check if type matches
             else if (!verifyValue(varAttr.type, value))
             {
-                // TODO err - assign wrong type
-                System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
+                throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNumberTuple.lineNumber);
             }
             // assign to var
             else

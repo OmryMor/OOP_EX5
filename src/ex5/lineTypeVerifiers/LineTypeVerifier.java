@@ -28,8 +28,8 @@ public interface LineTypeVerifier {
      * @param lineNumberTuple the line number and the line content
      * @return true if the line is of the correct type, false otherwise
      */
-    boolean verifyLine(LineNumberTuple lineNumberTuple);
-
+    boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException;
+    // TODO check where need to put throws
     /**
      * Verify that the expressions in the line are valid.
      * @param expressionString the expression string
@@ -37,11 +37,11 @@ public interface LineTypeVerifier {
      * @param lineType the type of the line
      * @return true if the expressions are valid, false otherwise
      */
-    default boolean verifyExpressions(String expressionString, int lineNumber, LineContent lineType){
+    default boolean verifyExpressions(String expressionString, int lineNumber, LineContent lineType)
+            throws IncorrectLineException {
         if(expressionString == null){
-            //TODO no expression in statement
-            System.err.printf((Constants.EMPTY_EXPRESSION_ERROR), lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.EMPTY_EXPRESSION_ERROR, lineNumber);
+            // TODO return false;
         }
         Pattern pattern = Pattern.compile(RegexConstants.CONDITION_REGEX);
         Matcher matcher = pattern.matcher(expressionString);
@@ -63,22 +63,18 @@ public interface LineTypeVerifier {
             }
             VariableAttributes var = VariableContainer.getVar(matcher.group(singleExpressionGroup));
             if(var == null){
-                //TODO UNKOW EXPRESSION ERROR
-                System.err.printf((Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON), lineNumber);
-
-                return false;
+                throw new LanguageRuleException(Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON, lineNumber);
+                // TODO return false;
             }
             if(var.type != VariableType.BOOLEAN &&
                     var.type != VariableType.DOUBLE &&
                     var.type != VariableType.INT){
-                //TODO INVALID EXPRESSION TYPE
-                System.err.printf((Constants.ILLEGAL_TYPE_IN_EXPRESSION), lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.ILLEGAL_TYPE_IN_EXPRESSION, lineNumber);
+                // TODO return false;
             }
             if(!var.hasValue){
-                //TODO variable not initialized error
-                System.err.printf((Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON), lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.UNINITIALIZED_VARAIBLE_IN_EXPRESSIOON, lineNumber);
+                // TODO return false;
             }
         }
         PreviousStatementContainer.setPrevStatement(lineType);

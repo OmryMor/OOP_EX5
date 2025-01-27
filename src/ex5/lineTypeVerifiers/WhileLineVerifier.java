@@ -32,15 +32,17 @@ public class WhileLineVerifier implements LineTypeVerifier{
             return false;
         }
         if(VariableContainer.inGlobalScope()){
-            //todo it is being called outside of a function -> error
-            System.err.printf((Constants.CALL_NOT_IN_FUNCTION), lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
         VariableContainer.scopeIn();
         String expressionString = matcher.group(expressionStringGroup);
-        if(!verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.WHILE_STATEMENT)){
-            return false;
+        try{
+            verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.WHILE_STATEMENT);
+        } catch (IncorrectLineException e) {
+            throw new RuntimeException(e);
         }
+        // TODO return false;
         PreviousStatementContainer.setPrevStatement(LineContent.WHILE_STATEMENT);
         return true;
     }

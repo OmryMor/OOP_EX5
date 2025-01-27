@@ -29,18 +29,20 @@ public class MethodCallVerifier implements LineTypeVerifier {
         String methodName = matcher.group(1);
         MethodAttributes methodAttributes = MethodsContainer.getMethod(methodName);
         if (methodAttributes == null) {
-            //TODO Method does not exist error
-            System.err.printf(Constants.METHOD_NOT_DECLARED, lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.METHOD_NOT_DECLARED, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
-        if(!checkMethodParameters(matcher.group(2), methodAttributes, lineNumberTuple)){
-            return false;
+        try {
+            checkMethodParameters(matcher.group(2), methodAttributes, lineNumberTuple);
+        } catch (IncorrectLineException e) {
+            throw new RuntimeException(e);
         }
+        // TODO return false;
         return true;
     }
 
-    private boolean checkMethodParameters(String params, MethodAttributes methodAttributes,
-                                          LineNumberTuple lineNumberTuple){
+    private void checkMethodParameters(String params, MethodAttributes methodAttributes,
+                                          LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         //validates that the given parameters match the method signature
         if(params == null) params = "";
         Pattern pattern = Pattern.compile(RegexConstants.VAR_VALUE_REGEX);
@@ -53,9 +55,9 @@ public class MethodCallVerifier implements LineTypeVerifier {
             boolean isValidPrimitive = true;
 
             if(i == typeList.size()){
-                //TODO err - too many parameters given to method
-                System.err.printf((Constants.METHOD_PARAMETERS_MISMATCH), lineNumberTuple.lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.METHOD_PARAMETERS_MISMATCH,
+                        lineNumberTuple.lineNumber);
+                // TODO return false;
             }
             String paramString = matcher.group(0);
             VariableAttributes var = VariableContainer.getVar(paramString);
@@ -67,17 +69,15 @@ public class MethodCallVerifier implements LineTypeVerifier {
             }
 
             if(!isValidVar && !isValidPrimitive){
-                //TODO err - parameters given to method dont match methods signature
-                System.err.printf((Constants.METHOD_CALL_INVALID), lineNumberTuple.lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.METHOD_CALL_INVALID, lineNumberTuple.lineNumber);
+                // TODO return false;
             }
             i++;
         }
         if(i != typeList.size()){
-            //TODO err - not enough parameters given to method
-            System.err.printf((Constants.METHOD_PARAMETERS_MISMATCH), lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.METHOD_PARAMETERS_MISMATCH, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
-        return true;
+        // TODO return true;
     }
 }

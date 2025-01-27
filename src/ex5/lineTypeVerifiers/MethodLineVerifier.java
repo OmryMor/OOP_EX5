@@ -37,26 +37,23 @@ public class MethodLineVerifier implements LineTypeVerifier{
         if (!matcher.find()) {
             return false;
         }
-
         //get in scope
         if(!LineVerifier.isFirstPass)VariableContainer.scopeIn();
 
         String methodName = matcher.group(methodNameGroup);
         List<VariableAttributes> parametersList = getParametersList(matcher.group(paramsListGroup));
         if(parametersList == null){
-            //TODO Var with name already exists in scope error
-            System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
-            return false;
+            throw new LanguageRuleException(Constants.METHOD_NAME_EXISTS_ERROR, lineNumberTuple.lineNumber);
+            // TODO return false;
         }
         if(LineVerifier.isFirstPass){
             MethodAttributes method = new MethodAttributes(methodName, parametersList);
             if(!MethodsContainer.AddMethod(method)){
-                //TODO Method with name already exists
-                System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
-                return false;
+                throw new LanguageRuleException(Constants.METHOD_NAME_EXISTS_ERROR,
+                        lineNumberTuple.lineNumber);
+                // TODO return false;
             }
         }
-
         PreviousStatementContainer.setPrevStatement(LineContent.METHOD_DECLARATION);
         return true;
     }
