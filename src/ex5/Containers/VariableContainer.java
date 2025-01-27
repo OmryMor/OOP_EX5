@@ -50,7 +50,7 @@ public class VariableContainer {
      * @return the variable with the given name or null if it doesn't exist
      */
     public static VariableAttributes getVar(String name){
-        return currentScope.findVarInScope(name);
+        return currentScope.findVarInAllScopes(name);
     }
 
 }

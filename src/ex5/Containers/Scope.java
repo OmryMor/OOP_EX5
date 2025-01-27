@@ -43,19 +43,24 @@ public class Scope {
      * @return true if the variable was added, false otherwise (if it was already added)
      */
     public boolean AddVarToScope(VariableAttributes storage){
-        if (findVarInScope(storage.name) != null) return false;
+        if (findVarInCurScope(storage.name) != null) return false;
         vars.put(storage.name, storage);
         return true;
     }
 
+    private VariableAttributes findVarInCurScope(String name) {
+        if (vars.containsKey(name)) return vars.get(name);
+        return null;
+    }
+
     /**
-     * Find a variable in the current scope
+     * Find a variable in the current scope and all parent scopes
      * @param name the name of the variable
      * @return the variable with the given name or null if it doesn't exist
      */
-    public VariableAttributes findVarInScope(String name) {
+    public VariableAttributes findVarInAllScopes(String name) {
         if (vars.containsKey(name)) return vars.get(name);
         else if (parent == null) return null;
-        else return parent.findVarInScope(name);
+        else return parent.findVarInAllScopes(name);
     }
 }
