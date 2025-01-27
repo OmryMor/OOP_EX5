@@ -71,5 +71,4 @@ public class Constants {
         METHOD_NOT_ENDING_WITH_RETURN_ERROR = "Method did not end with return statement (line %d)\n",
         CALL_NOT_IN_FUNCTION = "Statement can't be called outside a method body (line %d)\n"
                 ;
-
 }

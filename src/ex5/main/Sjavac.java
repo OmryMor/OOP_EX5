@@ -18,7 +18,7 @@ public class Sjavac {
      * @param args the path to the document
      */
     public static void main(String[] args) {
-        int result = VerifyDocument.Verify("src/ex5/text.txt");
+        int result = VerifyDocument.Verify(args[0]);
         System.out.println(result);
     }
 }
