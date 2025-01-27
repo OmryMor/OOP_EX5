@@ -61,7 +61,12 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
             // assign to var
             else
             {
-                varAttr.hasValue = true;
+                VariableAttributes newVar = new VariableAttributes(
+                        varAttr.type,
+                        true,
+                        false,
+                        varAttr.name);
+                VariableContainer.addVarToCurrentScope(newVar);
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.VAR_ASSIGNMENT);

@@ -1,8 +1,5 @@
 package ex5.Containers;
 
-import ex5.utils.Constants;
-import ex5.utils.VariableType;
-
 /**
  * This class holds all data for all variables in the script.
  * @author Omry Mor, Ruth Schiller
@@ -53,7 +50,7 @@ public class VariableContainer {
      * @return the variable with the given name or null if it doesn't exist
      */
     public static VariableAttributes getVar(String name){
-        return currentScope.findVarInScope(name);
+        return currentScope.findVarInAllScopes(name);
     }
 
 }
