@@ -48,7 +48,7 @@ public class Scope {
         return true;
     }
 
-    private VariableAttributes findVarInCurScope(String name) {
+    public VariableAttributes findVarInCurScope(String name) {
         if (vars.containsKey(name)) return vars.get(name);
         return null;
     }

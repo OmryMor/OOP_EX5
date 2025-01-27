@@ -53,4 +53,8 @@ public class VariableContainer {
         return currentScope.findVarInAllScopes(name);
     }
 
+    public static VariableAttributes getVarInScope(String name) {
+        return currentScope.findVarInCurScope(name);
+    }
+
 }

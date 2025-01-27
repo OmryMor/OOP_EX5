@@ -69,6 +69,7 @@ public class Constants {
         VAR_NAME_TAKEN_ERROR = "There already exists a variable with this name at the current scope (line %d)\n",
         METHOD_NAME_EXISTS_ERROR = "There already exists a method with this name (line %d)\n",
         METHOD_NOT_ENDING_WITH_RETURN_ERROR = "Method did not end with return statement (line %d)\n",
-        CALL_NOT_IN_FUNCTION = "Statement can't be called outside a method body (line %d)\n"
+        CALL_NOT_IN_FUNCTION = "Statement can't be called outside a method body (line %d)\n",
+        INVALID_VAR_ASSIGNMENT = "Attempt to assign value of invalid variable (line %d)\n"
                 ;
 }

@@ -92,45 +92,72 @@ public interface LineTypeVerifier {
             case INT:
                 try {
                     Integer.parseInt(value);
+                    return true;
                 } catch (NumberFormatException e){
-                    return false;
+                    break;
                 }
-                break;
 
             case DOUBLE:
                 try {
                     Double.parseDouble(value);
+                    return true;
                 } catch (NumberFormatException e){
-                    return false;
+                    break;
                 }
-                break;
 
             case STRING:
-                if (!value.startsWith("\"") || !value.endsWith("\"")){
-                    return false;
+                if (value.startsWith("\"") && value.endsWith("\"")){
+                    return true;
                 }
                 break;
 
             case BOOLEAN:
-                if (!value.equals(Constants.TRUE_KEYWORD) && !value.equals(Constants.FALSE_KEYWORD)){
+                if (value.equals(Constants.TRUE_KEYWORD) || value.equals(Constants.FALSE_KEYWORD)) {
+                    return true;
+                }
+                else {
                     try {
                         Double.parseDouble(value);
+                        return true;
                     } catch (NumberFormatException e){
-                        return false;
+                        break;
                     }
                 }
-                break;
 
             case CHAR:
-                if (!value.startsWith("'") || !value.endsWith("'") || value.length() != 3){
-                    return false;
+                if (value.startsWith("'") && value.endsWith("'") && value.length() == 3){
+                    return true;
                 }
                 break;
 
-            case VARIABLE:
-                VariableAttributes newVar = VariableContainer.getVar(value);
-                if(newVar == null || newVar.type != type) return false;
-                break;
+//            case VARIABLE:
+//                VariableAttributes newVar = VariableContainer.getVar(value);
+//                if(newVar != null && newVar.type == type) return true;
+//                break;
+        }
+        return verifyVarAssignment(type, value);
+    }
+
+    default boolean verifyVarAssignment(VariableType type, String assignerVarName)
+    {
+        VariableAttributes newVar = VariableContainer.getVarInScope(assignerVarName);
+        if (newVar == null)
+        {
+            // var to assign undeclared
+            System.err.println("var to assign undeclared");
+            return false;
+        }
+        if (newVar.type != type)
+        {
+            // var to assign of wrong type
+            System.err.println("var to assign of wrong type");
+            return false;
+        }
+        if (newVar.hasValue)
+        {
+            // var to assign uninitialized
+            System.err.println("var to assign uninitialized");
+            return false;
         }
         return true;
     }
