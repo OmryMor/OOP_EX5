@@ -18,7 +18,7 @@ public class Sjavac {
      * @param args the path to the document
      */
     public static void main(String[] args) {
-        int result = VerifyDocument.Verify(args[0]);
+        int result = VerifyDocument.Verify("src/ex5/Tests/test427.sjava");
         System.out.println(result);
     }
 }

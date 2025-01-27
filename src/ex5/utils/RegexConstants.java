@@ -71,7 +71,11 @@ public class RegexConstants {
                     "([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|true|false|" +
                     "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))\\s*)",
 
-            METHOD_CALL_REGEX = "",
+            METHOD_CALL_REGEX ="^\\s*([A-Za-z][A-Za-z0-9_]*)\\s*" +
+                    "\\(\\s*(([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|" +
+                    "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*))(\\s*,\\s*" +
+                    "([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|([A-Za-z][A-Za-z0-9_]*|" +
+                    "_[A-Za-z0-9][A-Za-z0-9_]*)))*\\s*)?)\\s*\\)\\s*;\\s*$",
 
             RETURN_REGEX = "^\\s*return\\s*;\\s*$"
                     ;

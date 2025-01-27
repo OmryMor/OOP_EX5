@@ -12,7 +12,7 @@ import ex5.utils.LineNumberTuple;
  */
 public class BracketLineVerifier implements LineTypeVerifier {
 
-    private static final String OPEN_BRACKET = "{";
+    private static final String CLOSE_BRACKET = "}";
 
     /**
      * Verify that the line is a closing bracket.
@@ -21,7 +21,7 @@ public class BracketLineVerifier implements LineTypeVerifier {
      */
     @Override
     public boolean verifyLine(LineNumberTuple lineNumberTuple) {
-        if(!lineNumberTuple.line.trim().equals(OPEN_BRACKET)){
+        if(!lineNumberTuple.line.trim().equals(CLOSE_BRACKET)){
             return false;
         }
         if(!VariableContainer.scopeOut()){

@@ -54,7 +54,6 @@ public class MethodLineVerifier implements LineTypeVerifier{
             System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
             return false;
         }
-        //TODO - IF I DEFINE VARIABLE IN DECLARATION CAN I DEFINE IT AGAIN IN FUNCTION?
         PreviousStatementContainer.setPrevStatement(LineContent.METHOD_DECLARATION);
         return true;
     }
