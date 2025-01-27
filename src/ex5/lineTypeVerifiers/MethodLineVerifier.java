@@ -44,7 +44,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
         List<VariableAttributes> parametersList = getParametersList(matcher.group(paramsListGroup));
         if(parametersList == null){
             //TODO Var with name already exists in scope error
-            System.err.printf((Constants.NAME_TAKEN_ERROR), lineNumberTuple.lineNumber);
+            System.err.printf((Constants.METHOD_NAME_EXISTS_ERROR), lineNumberTuple.lineNumber);
             return false;
         }
         MethodAttributes method = new MethodAttributes(methodName, parametersList);

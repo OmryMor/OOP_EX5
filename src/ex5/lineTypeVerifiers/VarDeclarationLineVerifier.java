@@ -56,7 +56,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 System.err.printf((Constants.KEYWORD_AS_VARIABLE_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
-            if(!verifyValue(type, value)){
+            if(hasValue && !verifyValue(type, value)){
                 //TODO ERROR - VALUE DOES NOT MATCH VARIABLE TYPE (show line)
                 System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
                 return false;
