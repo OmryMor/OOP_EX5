@@ -33,6 +33,13 @@ public class VerifyDocument {
         if(!checkLineEndings(lines)){
             return Constants.CODE_ILLEGAL;
         }
+        LineVerifier.isFirstPass = true;
+        for(LineNumberTuple line: lines){
+            if(!lineVerifier.verifyLine(line)){
+                return Constants.CODE_ILLEGAL;
+            }
+        }
+        LineVerifier.isFirstPass = false;
         for(LineNumberTuple line: lines){
             if(!lineVerifier.verifyLine(line)){
                 return Constants.CODE_ILLEGAL;

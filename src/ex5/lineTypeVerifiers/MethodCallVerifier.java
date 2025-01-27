@@ -43,8 +43,8 @@ public class MethodCallVerifier implements LineTypeVerifier {
                                           LineNumberTuple lineNumberTuple){
         //validates that the given parameters match the method signature
         if(params == null) params = "";
-        Pattern pattern = Pattern.compile(RegexConstants.SINGLE_METHOD_PARAMETER_REGEX);
-        Matcher matcher = pattern.matcher(RegexConstants.VAR_VALUE_REGEX);
+        Pattern pattern = Pattern.compile(RegexConstants.VAR_VALUE_REGEX);
+        Matcher matcher = pattern.matcher(params);
         List<VariableAttributes> typeList =  methodAttributes.getVarTypes();
         int i = 0;
         // check method variables
@@ -66,7 +66,7 @@ public class MethodCallVerifier implements LineTypeVerifier {
                 isValidPrimitive = false;
             }
 
-            if(!isValidVar || !isValidPrimitive){
+            if(!isValidVar && !isValidPrimitive){
                 //TODO err - parameters given to method dont match methods signature
                 System.err.printf((Constants.METHOD_CALL_INVALID), lineNumberTuple.lineNumber);
                 return false;

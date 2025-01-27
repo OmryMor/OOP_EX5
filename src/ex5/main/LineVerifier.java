@@ -39,7 +39,6 @@ public class LineVerifier {
         verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
         verifiers.add(bracketLineVerifier);
-        firstPassVerifiers.add(bracketLineVerifier);
         ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
         verifiers.add(returnLineVerifier);
         MethodCallVerifier methodCallVerifier = new MethodCallVerifier();
@@ -52,21 +51,24 @@ public class LineVerifier {
      * @return true if the line is of a valid type, false otherwise
      */
     public boolean verifyLine(LineNumberTuple line) {
-        isFirstPass = true;
-        for(LineTypeVerifier lineTypeVerifier : firstPassVerifiers){
-           lineTypeVerifier.verifyLine(line);
-        }
-        isFirstPass = false;
-        boolean isVerified = false;
-        for(LineTypeVerifier lineTypeVerifier : verifiers){
-            if(lineTypeVerifier.verifyLine(line)){
-                isVerified = true;
+
+        if(isFirstPass){
+            for(LineTypeVerifier lineTypeVerifier : firstPassVerifiers){
+                lineTypeVerifier.verifyLine(line);
             }
         }
-        if(!isVerified){
-            //TODO SYNTAX ERROR
-            System.err.printf((Constants.SYNTAX_ERROR), line.lineNumber);
-            return false;
+        else{
+            boolean isVerified = false;
+            for(LineTypeVerifier lineTypeVerifier : verifiers){
+                if(lineTypeVerifier.verifyLine(line)){
+                    isVerified = true;
+                }
+            }
+            if(!isVerified){
+                //TODO SYNTAX ERROR
+                System.err.printf((Constants.SYNTAX_ERROR), line.lineNumber);
+                return false;
+            }
         }
         return true;
     }

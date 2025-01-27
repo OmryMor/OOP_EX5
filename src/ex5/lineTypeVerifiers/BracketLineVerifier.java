@@ -30,7 +30,7 @@ public class BracketLineVerifier implements LineTypeVerifier {
             System.err.printf((Constants.ILLEGAL_SCOPE_ERROR), lineNumberTuple.lineNumber);
             return false;
         }
-        if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
+        if(VariableContainer.inGlobalScope()){
             if(PreviousStatementContainer.getPrevStatement() != LineContent.RETURN){
                 //TODO last command wasnt return statement error
                 System.err.printf((Constants.METHOD_NOT_ENDING_WITH_RETURN_ERROR), lineNumberTuple.lineNumber);
