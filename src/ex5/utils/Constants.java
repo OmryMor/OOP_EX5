@@ -55,11 +55,12 @@ public class Constants {
      * Constants for the different types of errors.
      */
     public static final String
-        INCORRECT_ENDING_SUFFIX = "There is a line that does not end with a semicolon or curly brace",
-        KEYWORD_AS_VARIABLE_ERROR = "Keywords cant be used as variable names",
-        SYNTAX_ERROR = "Line doesn't match required syntax",
-        EMPTY_EXPRESSION_ERROR = "No condition in statement",
+        ILLEGAL_LINE_END_SYNTAX = "Illegal line end syntax",
+        LINE_SYNTAX_ERROR = "Line doesn't match required syntax",
         ILLEGAL_SCOPE_ERROR = "Can't use close brackets, already in the global scope",
+
+        KEYWORD_AS_VARIABLE_ERROR = "Keywords cant be used as variable names",
+        EMPTY_EXPRESSION_ERROR = "No condition in statement",
         TYPE_MISMATCH_ERROR = "Given value cant be assigned to variable type",
         UNDECLARED_VAR_ERROR = "Can't assign value to undeclared var",
         FINAL_VAR_ASSIGN_ERROR = "Can't assign new value to a final variable",

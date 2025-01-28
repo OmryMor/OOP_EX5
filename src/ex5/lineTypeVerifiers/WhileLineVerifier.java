@@ -25,27 +25,28 @@ public class WhileLineVerifier implements LineTypeVerifier{
      * @return true if the line is a while statement, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException{
         Pattern pattern = Pattern.compile(RegexConstants.WHILE_STATEMENT_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
             return false;
         }
+
         if(VariableContainer.inGlobalScope()){
             throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
+
         VariableContainer.scopeIn();
-        if(!LineVerifier.isFirstPass){
+        if(LineVerifier.isFirstPass){
             return true;
         }
+
         String expressionString = matcher.group(expressionStringGroup);
         try{
             verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.WHILE_STATEMENT);
         } catch (IncorrectLineException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
-        // TODO return false;
         PreviousStatementContainer.setPrevStatement(LineContent.WHILE_STATEMENT);
         return true;
     }

@@ -24,7 +24,7 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
      * @return true if the line is a variable assignment line, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
 
         // check if this is an assignment statement, else return false
         Pattern pattern = Pattern.compile(RegexConstants.VAR_ASSIGNMENT_REGEX);
@@ -35,7 +35,6 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
 
         pattern = Pattern.compile(RegexConstants.SINGLE_VAR_ASSIGN_REGEX);
         matcher = pattern.matcher(matcher.group(varAssignmentGroup));
-
         while (matcher.find()) {
             String name = matcher.group(singleAssignNameGroup);
             String value = matcher.group(singleAssignValueGroup);
@@ -50,23 +49,28 @@ public class VarAssignmentLineVerifier implements LineTypeVerifier{
             {
                 throw new LanguageRuleException(Constants.FINAL_VAR_ASSIGN_ERROR, lineNumberTuple.lineNumber);
             }
+
             // check if type matches
-            else if (!verifyValue(varAttr.type, value))
-            {
-                throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNumberTuple.lineNumber);
+            try{
+                verifyValue(varAttr.type, value, lineNumberTuple.lineNumber);
+            } catch (IncorrectLineException e) {
+                throw e;
             }
             // assign to var
+            if (VariableContainer.getVarInScope(varAttr.name) == null) {
+                VariableAttributes newVar = new VariableAttributes(
+                        varAttr.type,
+                        true,
+                        false,
+                        varAttr.name);
+                if (!VariableContainer.addVarToCurrentScope(newVar)) {
+                    throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
+                            lineNumberTuple.lineNumber);
+                }
+            }
             else
             {
-                if (VariableContainer.getVarInScope(varAttr.name) == null) {
-                    VariableAttributes newVar = new VariableAttributes(
-                            varAttr.type,
-                            true,
-                            false,
-                            varAttr.name);
-                    VariableContainer.addVarToCurrentScope(newVar);
-                }
-                else varAttr.hasValue = true;
+                varAttr.hasValue = true;
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.VAR_ASSIGNMENT);

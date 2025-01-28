@@ -1,6 +1,7 @@
-int a;
+String a;
 void foo(){
-a = 7;
+a = "7";
+int c=a;
 return;
 }
 void boo(){

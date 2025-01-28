@@ -24,25 +24,26 @@ public class IfLineVerifier implements LineTypeVerifier {
      * @return true if the line is an if statement, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         Pattern pattern = Pattern.compile(RegexConstants.IF_STATEMENT_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
             return false;
         }
+
         if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
             throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
         VariableContainer.scopeIn();
-        if(!LineVerifier.isFirstPass){
+        if(LineVerifier.isFirstPass){
             return true;
         }
         String expressionString = matcher.group(expressionStringGroup);
         try{
-            return verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.IF_STATEMENT);
+            verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.IF_STATEMENT);
+            return true;
         } catch (IncorrectLineException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 }

@@ -31,7 +31,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
      * @return true if the line is a method declaration, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         Pattern pattern = Pattern.compile(RegexConstants.METHOD_DECLARATION_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
@@ -43,15 +43,13 @@ public class MethodLineVerifier implements LineTypeVerifier{
         String methodName = matcher.group(methodNameGroup);
         List<VariableAttributes> parametersList = getParametersList(matcher.group(paramsListGroup));
         if(parametersList == null){
-            throw new LanguageRuleException(Constants.METHOD_NAME_EXISTS_ERROR, lineNumberTuple.lineNumber);
-            // TODO return false;
+            throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR, lineNumberTuple.lineNumber);
         }
         if(LineVerifier.isFirstPass){
             MethodAttributes method = new MethodAttributes(methodName, parametersList);
             if(!MethodsContainer.AddMethod(method)){
                 throw new LanguageRuleException(Constants.METHOD_NAME_EXISTS_ERROR,
                         lineNumberTuple.lineNumber);
-                // TODO return false;
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.METHOD_DECLARATION);

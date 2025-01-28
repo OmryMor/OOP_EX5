@@ -28,7 +28,7 @@ public class MethodCallVerifier implements LineTypeVerifier {
      * @return true if the line is a method call, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         Pattern pattern = Pattern.compile(RegexConstants.METHOD_CALL_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
@@ -38,14 +38,12 @@ public class MethodCallVerifier implements LineTypeVerifier {
         MethodAttributes methodAttributes = MethodsContainer.getMethod(methodName);
         if (methodAttributes == null) {
             throw new LanguageRuleException(Constants.METHOD_NOT_DECLARED, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
         try {
             checkMethodParameters(matcher.group(methodParametersGroup), methodAttributes, lineNumberTuple);
         } catch (IncorrectLineException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
-        // TODO return false;
         return true;
     }
 
@@ -65,27 +63,26 @@ public class MethodCallVerifier implements LineTypeVerifier {
             if(i == typeList.size()){
                 throw new LanguageRuleException(Constants.METHOD_PARAMETERS_MISMATCH,
                         lineNumberTuple.lineNumber);
-                // TODO return false;
             }
+
             String paramString = matcher.group(0);
             VariableAttributes var = VariableContainer.getVar(paramString);
             if(var == null || var.type != typeList.get(i).type || !var.hasValue){
                 isValidVar = false;
             }
-            if(!verifyValue(typeList.get(i).type, paramString)){
+            try {
+                verifyValue(typeList.get(i).type, paramString, lineNumberTuple.lineNumber);
+            } catch (IncorrectLineException e){
                 isValidPrimitive = false;
             }
 
             if(!isValidVar && !isValidPrimitive){
                 throw new LanguageRuleException(Constants.METHOD_CALL_INVALID, lineNumberTuple.lineNumber);
-                // TODO return false;
             }
             i++;
         }
         if(i != typeList.size()){
             throw new LanguageRuleException(Constants.METHOD_PARAMETERS_MISMATCH, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
-        // TODO return true;
     }
 }

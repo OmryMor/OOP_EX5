@@ -21,20 +21,18 @@ public class BracketLineVerifier implements LineTypeVerifier {
      * @return true if the line is a closing bracket, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         // check if line of type bracket line
         if(!lineNumberTuple.line.trim().equals(CLOSE_BRACKET)){
             return false;
         }
         if(!VariableContainer.scopeOut() && !LineVerifier.isFirstPass){
             throw new LanguageRuleException(Constants.ILLEGAL_SCOPE_ERROR, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
         if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
             if(PreviousStatementContainer.getPrevStatement() != LineContent.RETURN){
                 throw new LanguageRuleException(Constants.METHOD_NOT_ENDING_WITH_RETURN_ERROR,
                         lineNumberTuple.lineNumber);
-                // TODO return false;
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.CLOSE_BRACKET);

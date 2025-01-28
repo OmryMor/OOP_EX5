@@ -54,31 +54,31 @@ public class LineVerifier {
      * @param line the line to be verified
      * @return true if the line is of a valid type, false otherwise
      */
-    public boolean verifyLine(LineNumberTuple line) {
+    public void verifyLine(LineNumberTuple line) throws IncorrectLineException{
 
         if(isFirstPass){
             for(LineTypeVerifier lineTypeVerifier : firstPassVerifiers){
                 try {
                     lineTypeVerifier.verifyLine(line);
                 } catch (IncorrectLineException e) {
-                    System.err.println(e.getMessage());
+                    throw e;
                 }
             }
         }
+
         else{
             boolean isVerified = false;
             for(LineTypeVerifier lineTypeVerifier : verifiers){
                 try {
                     if (lineTypeVerifier.verifyLine(line)) isVerified = true;
                 } catch (IncorrectLineException e) {
-                    System.err.println(e.getMessage());
+                    throw e;
                 }
             }
+
             if(!isVerified){
-                throw new SyntaxErrorException(Constants.SYNTAX_ERROR, line.lineNumber);
-                // TODO return false;
+                throw new SyntaxErrorException(Constants.LINE_SYNTAX_ERROR, line.lineNumber);
             }
         }
-        return true;
     }
 }

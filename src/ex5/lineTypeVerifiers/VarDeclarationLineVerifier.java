@@ -31,7 +31,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
      * @return true if the line is a variable declaration line, false otherwise
      */
     @Override
-    public boolean verifyLine( LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine( LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         Pattern pattern = Pattern.compile(RegexConstants.VARIABLE_DECLARATION_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
@@ -42,7 +42,6 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
 
         pattern = Pattern.compile(RegexConstants.SINGLE_DECLARATION_REGEX);
         matcher = pattern.matcher(matcher.group(varDefinitionGroup));
-
         while (matcher.find()) {
             String name = matcher.group(singleDeclarationNameGroup);
             String value = matcher.group(singleDeclarationValueGroup);
@@ -50,24 +49,26 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
             if(!hasValue && isFinal){
                 throw new LanguageRuleException(Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR,
                         lineNumberTuple.lineNumber);
-                // TODO return false;
             }
-            if(isSafeWord(name)){
+            if(isKeyword(name)){
                 throw new SyntaxErrorException(Constants.KEYWORD_AS_VARIABLE_ERROR,
                         lineNumberTuple.lineNumber);
-                // TODO return false;
             }
-            if(hasValue && !verifyValue(type, value)){
-                throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNumberTuple.lineNumber);
-                // TODO return false;
+            if(hasValue)
+            {
+                try {
+                    verifyValue(type, value, lineNumberTuple.lineNumber);
+                } catch (IncorrectLineException e) {
+                    throw e;
+                }
             }
+
             if((LineVerifier.isFirstPass && VariableContainer.inGlobalScope()) ||
-                    (!LineVerifier.isFirstPass&& !VariableContainer.inGlobalScope())){
+                    (!LineVerifier.isFirstPass && !VariableContainer.inGlobalScope())){
                 VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
                 if(!VariableContainer.addVarToCurrentScope(var)){
                     throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
                             lineNumberTuple.lineNumber);
-                    // TODO return false;
                 }
             }
         }
@@ -75,7 +76,7 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         return true;
     }
 
-    private boolean isSafeWord(String word){
+    private boolean isKeyword(String word){
         //This method checks if a word is a reserved keyword
         return Arrays.asList(Constants.KEYWORDS).contains(word);
     }

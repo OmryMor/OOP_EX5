@@ -1,5 +1,7 @@
 package ex5.main;
 
+import ex5.lineTypeVerifiers.IncorrectLineException;
+import ex5.lineTypeVerifiers.SyntaxErrorException;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
@@ -27,21 +29,41 @@ public class VerifyDocument {
      * @return 0 if the document is legal, 1 if it is not, 2 if there was an IO error
      */
     public static int Verify(String path){
-        List<LineNumberTuple> lines = parseFile(path);
+        // parse file and extract lines
+        List<LineNumberTuple> lines;
+        try{
+            lines = parseFile(path);
+        } catch (IOException e) {
+            return Constants.IO_ERROR;
+        }
+
         lines = deleteCommentsAndEmptyRows(lines);
+
         LineVerifier lineVerifier = new LineVerifier();
-        if(!checkLineEndings(lines)){
+
+        try {
+            checkAllLineEndingsLegal(lines);
+        } catch (IncorrectLineException e) {
+            System.err.println(e.getMessage());
             return Constants.CODE_ILLEGAL;
         }
+
         LineVerifier.isFirstPass = true;
         for(LineNumberTuple line: lines){
-            if(!lineVerifier.verifyLine(line)){
+            try{
+                lineVerifier.verifyLine(line);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
                 return Constants.CODE_ILLEGAL;
             }
         }
         LineVerifier.isFirstPass = false;
+
         for(LineNumberTuple line: lines){
-            if(!lineVerifier.verifyLine(line)){
+            try {
+                lineVerifier.verifyLine(line);
+            } catch (IncorrectLineException e) {
+                System.err.println(e.getMessage());
                 return Constants.CODE_ILLEGAL;
             }
         }
@@ -58,7 +80,7 @@ public class VerifyDocument {
         }
     }
 
-    private static List<LineNumberTuple> parseFile(String path){
+    private static List<LineNumberTuple> parseFile(String path) throws IOException{
         // read file and add each row to a list
         List<LineNumberTuple> lines = new ArrayList<>();
 
@@ -72,7 +94,7 @@ public class VerifyDocument {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO Needs to print 2
+            throw e;
         }
         return lines;
     }
@@ -92,19 +114,19 @@ public class VerifyDocument {
         return linesWithoutComments;
     }
 
-    private static boolean isCodeEndLine(String line){
-        // Check if the line ends with a semicolon
+    private static boolean isLineEndLegal(String line){
+        // Check if the line ends with a legal end
         Pattern pattern = Pattern.compile(RegexConstants.CODE_ENDLINE_REGEX);
         Matcher matcher = pattern.matcher(line);
         return matcher.find();
     }
 
-    private static boolean checkLineEndings(List<LineNumberTuple> lines){
+    private static boolean checkAllLineEndingsLegal(List<LineNumberTuple> lines)
+            throws IncorrectLineException {
         // Check that each line ends with a semicolon
         for (LineNumberTuple line : lines) {
-            if (!isCodeEndLine(line.line)) {
-                System.err.printf((Constants.INCORRECT_ENDING_SUFFIX) + "%n", line.lineNumber);
-                return false;
+            if (!isLineEndLegal(line.line)) {
+                throw new SyntaxErrorException(Constants.ILLEGAL_LINE_END_SYNTAX, line.lineNumber);
             }
         }
         return true;

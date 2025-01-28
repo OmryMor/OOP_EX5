@@ -22,7 +22,7 @@ public class ReturnLineVerifier implements LineTypeVerifier{
      * @return true if the line is a return statement, false otherwise
      */
     @Override
-    public boolean verifyLine(LineNumberTuple lineNumberTuple) {
+    public boolean verifyLine(LineNumberTuple lineNumberTuple) throws IncorrectLineException {
         Pattern pattern = Pattern.compile(RegexConstants.RETURN_REGEX);
         Matcher matcher = pattern.matcher(lineNumberTuple.line);
         if (!matcher.find()) {
@@ -30,7 +30,6 @@ public class ReturnLineVerifier implements LineTypeVerifier{
         }
         if(VariableContainer.inGlobalScope()){
             throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
-            // TODO return false;
         }
         PreviousStatementContainer.setPrevStatement(LineContent.RETURN);
         return true;

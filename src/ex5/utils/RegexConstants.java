@@ -20,6 +20,8 @@ public class RegexConstants {
 
             VAR_NAME_REGEX = "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)",
 
+            STANDALONE_VAR_NAME_REGEX = "^\\s*" + VAR_NAME_REGEX + "\\s*$",
+
             VAR_VALUE_REGEX = "([-+]?[\\d]*[.]?[\\d]+|[\"].*[\"]|['].[']|true|false|" +
                     VAR_NAME_REGEX+")",
 

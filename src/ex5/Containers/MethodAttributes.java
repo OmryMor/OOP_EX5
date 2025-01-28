@@ -9,7 +9,6 @@ import java.util.List;
 public class MethodAttributes {
 
     private final String methodName;
-    private final int numOfParams;
     private final List<VariableAttributes> vars;
 
     /**
@@ -20,7 +19,6 @@ public class MethodAttributes {
     public MethodAttributes(String methodName, List<VariableAttributes> varTypes)
     {
         this.methodName = methodName;
-        this.numOfParams = varTypes.size();
         this.vars = varTypes;
     }
 
@@ -30,14 +28,6 @@ public class MethodAttributes {
      */
     public List<VariableAttributes> getVarTypes(){
         return this.vars;
-    }
-
-    /**
-     * Get the number of parameters in the method
-     * @return the number of parameters in the method
-     */
-    public int getNumOfParams(){
-        return numOfParams;
     }
 
     /**
