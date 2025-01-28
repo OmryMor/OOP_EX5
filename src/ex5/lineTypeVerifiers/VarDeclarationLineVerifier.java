@@ -62,7 +62,8 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 System.err.printf((Constants.TYPE_MISMATCH_ERROR), lineNumberTuple.lineNumber);
                 return false;
             }
-            if(LineVerifier.isFirstPass){
+            if((LineVerifier.isFirstPass && VariableContainer.inGlobalScope()) ||
+                    (!LineVerifier.isFirstPass&& !VariableContainer.inGlobalScope())){
                 VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
                 if(!VariableContainer.addVarToCurrentScope(var)){
                     //TODO ERROR - CURRENT SCOPE ALREADY HAS PARAMETER WITH IDENTICAL NAME

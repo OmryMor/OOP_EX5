@@ -39,7 +39,7 @@ public class MethodLineVerifier implements LineTypeVerifier{
         }
 
         //get in scope
-        if(!LineVerifier.isFirstPass)VariableContainer.scopeIn();
+        VariableContainer.scopeIn();
 
         String methodName = matcher.group(methodNameGroup);
         List<VariableAttributes> parametersList = getParametersList(matcher.group(paramsListGroup));

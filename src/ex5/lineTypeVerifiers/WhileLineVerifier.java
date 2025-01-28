@@ -2,6 +2,7 @@ package ex5.lineTypeVerifiers;
 
 import ex5.Containers.PreviousStatementContainer;
 import ex5.Containers.VariableContainer;
+import ex5.main.LineVerifier;
 import ex5.utils.LineContent;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
@@ -17,7 +18,6 @@ import java.util.regex.Pattern;
 public class WhileLineVerifier implements LineTypeVerifier{
 
     private final int expressionStringGroup = 1;
-    private final int singleExpressionGroup = 0;
 
     /**
      * Verify that the line is a while statement.
@@ -37,6 +37,9 @@ public class WhileLineVerifier implements LineTypeVerifier{
             return false;
         }
         VariableContainer.scopeIn();
+        if(!LineVerifier.isFirstPass){
+            return true;
+        }
         String expressionString = matcher.group(expressionStringGroup);
         if(!verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.WHILE_STATEMENT)){
             return false;

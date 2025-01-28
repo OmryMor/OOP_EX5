@@ -33,14 +33,18 @@ public class LineVerifier {
         firstPassVerifiers.add(methodLineVerifier);
         WhileLineVerifier whileLineVerifier = new WhileLineVerifier();
         verifiers.add(whileLineVerifier);
+        firstPassVerifiers.add(whileLineVerifier);
         IfLineVerifier ifLineVerifier = new IfLineVerifier();
         verifiers.add(ifLineVerifier);
+        firstPassVerifiers.add(ifLineVerifier);
         VarAssignmentLineVerifier varAssignmentLineVerifier = new VarAssignmentLineVerifier();
         verifiers.add(varAssignmentLineVerifier);
         BracketLineVerifier bracketLineVerifier = new BracketLineVerifier();
         verifiers.add(bracketLineVerifier);
+        firstPassVerifiers.add(bracketLineVerifier);
         ReturnLineVerifier returnLineVerifier = new ReturnLineVerifier();
         verifiers.add(returnLineVerifier);
+        firstPassVerifiers.add(returnLineVerifier);
         MethodCallVerifier methodCallVerifier = new MethodCallVerifier();
         verifiers.add(methodCallVerifier);
     }
