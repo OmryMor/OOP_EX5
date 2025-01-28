@@ -152,12 +152,12 @@ public interface LineTypeVerifier {
         if (newVar.type != type)
         {
             // var to assign of wrong type
-            throw new LanguageRuleException("var to assign of wrong type", lineNum);
+            throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNum);
         }
         if (!newVar.hasValue)
         {
             // var to assign uninitialized
-            throw new LanguageRuleException("var to assign uninitialized", lineNum);
+            throw new LanguageRuleException(Constants.INVALID_VAR_ASSIGNMENT, lineNum);
         }
     }
 
