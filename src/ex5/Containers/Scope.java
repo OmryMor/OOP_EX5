@@ -48,6 +48,11 @@ public class Scope {
         return true;
     }
 
+    /**
+     * Find a variable in the current scope
+     * @param name the name of the variable
+     * @return the variable with the given name or null if it doesn't exist
+     */
     public VariableAttributes findVarInCurScope(String name) {
         if (vars.containsKey(name)) return vars.get(name);
         return null;

@@ -12,7 +12,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is a method call.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class MethodCallVerifier implements LineTypeVerifier {
+
+    private static final int methodNameGroup = 1;
+    private static final int methodParametersGroup = 2;
 
     /**
      * Verify that the line is a method call.
@@ -26,14 +33,14 @@ public class MethodCallVerifier implements LineTypeVerifier {
         if (!matcher.find()) {
             return false;
         }
-        String methodName = matcher.group(1);
+        String methodName = matcher.group(methodNameGroup);
         MethodAttributes methodAttributes = MethodsContainer.getMethod(methodName);
         if (methodAttributes == null) {
             //TODO Method does not exist error
             System.err.printf(Constants.METHOD_NOT_DECLARED, lineNumberTuple.lineNumber);
             return false;
         }
-        if(!checkMethodParameters(matcher.group(2), methodAttributes, lineNumberTuple)){
+        if(!checkMethodParameters(matcher.group(methodParametersGroup), methodAttributes, lineNumberTuple)){
             return false;
         }
         return true;

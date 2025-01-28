@@ -75,8 +75,6 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         return true;
     }
 
-
-
     private boolean isSafeWord(String word){
         //This method checks if a word is a reserved keyword
         return Arrays.asList(Constants.KEYWORDS).contains(word);
