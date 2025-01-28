@@ -81,7 +81,7 @@ public class VerifyDocument {
      */
     public static void printLines(List<LineNumberTuple> lines){
         for(LineNumberTuple line: lines){
-            System.out.println(line.lineNumber + " " + line.line);
+//            System.out.println(line.lineNumber + " " + line.line);
         }
     }
 

@@ -1,10 +1,8 @@
 package ex5.lineTypeVerifiers;
 
-import ex5.Containers.MethodAttributes;
-import ex5.Containers.MethodsContainer;
-import ex5.Containers.VariableAttributes;
-import ex5.Containers.VariableContainer;
+import ex5.Containers.*;
 import ex5.utils.Constants;
+import ex5.utils.LineContent;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
 
@@ -43,6 +41,7 @@ public class MethodCallVerifier implements LineTypeVerifier {
         } catch (IncorrectLineException e) {
             throw e;
         }
+        PreviousStatementContainer.setPrevStatement(LineContent.METHOD_CALL);
         return true;
     }
 

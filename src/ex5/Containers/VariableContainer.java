@@ -45,7 +45,7 @@ public class VariableContainer {
     }
 
     /**
-     * Find a variable in the current scope
+     * Find a variable in all scopes
      * @param name the name of the variable
      * @return the variable with the given name or null if it doesn't exist
      */

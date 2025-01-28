@@ -5,5 +5,28 @@ package ex5.utils;
  * @author Omry Mor, Ruth Schiller
  */
 public enum VariableType {
-    INT, DOUBLE, STRING, BOOLEAN, CHAR, VARIABLE
+    /**
+     * Integer variable type
+     */
+    INT,
+    /**
+     * Double variable type
+     */
+    DOUBLE,
+    /**
+     * String variable type
+     */
+    STRING,
+    /**
+     * Boolean variable type
+     */
+    BOOLEAN,
+    /**
+     * Char variable type
+     */
+    CHAR,
+    /**
+     * Variable type is not defined
+     */
+    VARIABLE
 }

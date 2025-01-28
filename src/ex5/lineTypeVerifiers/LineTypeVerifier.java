@@ -149,7 +149,7 @@ public interface LineTypeVerifier {
      */
     default void verifyVarAssignment(VariableType type, String assignerVarName, int lineNum)
             throws IncorrectLineException {
-        VariableAttributes newVar = VariableContainer.getVarInScope(assignerVarName);
+        VariableAttributes newVar = VariableContainer.getVar(assignerVarName);
         if (newVar == null)
         {
             // var to assign undeclared
