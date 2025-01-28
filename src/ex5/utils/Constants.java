@@ -7,6 +7,11 @@ package ex5.utils;
 public class Constants {
 
     /**
+     * The suffix of the files that the program reads.
+     */
+    public static final String SJAVA_SUFFIX = ".sjava";
+
+    /**
      * Constants for the different types of variables that can be declared.
      */
     public static final String
@@ -78,6 +83,7 @@ public class Constants {
         INVALID_VAR_ASSIGNMENT = "Attempt to assign value of invalid variable",
         METHOD_NOT_DECLARED = "Method has not been declared",
         METHOD_PARAMETERS_MISMATCH = "Method parameters amount do not match method signature",
-        METHOD_CALL_INVALID = "Parameters given to method dont match methods signature"
+        METHOD_CALL_INVALID = "Parameters given to method dont match methods signature",
+        BRACKETS_MISMATCH = "There is not an equal amount of opening and closing brackets"
                 ;
 }

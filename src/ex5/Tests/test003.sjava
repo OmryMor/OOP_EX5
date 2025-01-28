@@ -9,8 +9,14 @@ String h = "i%#";
 boolean i = true;
 boolean j = false;
 final boolean k = -5.2;
-char  m = 'a';
+char  m = 'a', m1, m2, _m3 = 'b';
 final char  n = '@';
 char x;
 int y;
-final String z;
+
+
+void foo(int a){
+    a = 3;
+    return;
+}
+

@@ -1,6 +1,8 @@
 package ex5.main;
 
+import ex5.Containers.VariableContainer;
 import ex5.lineTypeVerifiers.IncorrectLineException;
+import ex5.lineTypeVerifiers.LanguageRuleException;
 import ex5.lineTypeVerifiers.SyntaxErrorException;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
@@ -28,7 +30,7 @@ public class VerifyDocument {
      * @param path the path to the document
      * @return 0 if the document is legal, 1 if it is not, 2 if there was an IO error
      */
-    public static int Verify(String path){
+    public static int Verify(String path) throws LanguageRuleException {
         // parse file and extract lines
         List<LineNumberTuple> lines;
         try{
@@ -67,6 +69,9 @@ public class VerifyDocument {
                 return Constants.CODE_ILLEGAL;
             }
         }
+        if(!VariableContainer.inGlobalScope()){
+            throw new LanguageRuleException(Constants.BRACKETS_MISMATCH, lines.size());
+        }
         return Constants.CODE_LEGAL;
     }
 
@@ -93,7 +98,7 @@ public class VerifyDocument {
                 index++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(Constants.INVALID_FILE_NAME);
             throw e;
         }
         return lines;

@@ -1,5 +1,6 @@
 package ex5.main;
 
+import ex5.lineTypeVerifiers.IncorrectLineException;
 import ex5.utils.Constants;
 
 /**
@@ -26,12 +27,19 @@ public class Sjavac {
             System.err.println(Constants.WRONG_NUM_OF_ARGS);
             result = Constants.IO_ERROR;
         }
-        else if (!args[0].endsWith(".sjava"))
+        else if (!args[0].endsWith(Constants.SJAVA_SUFFIX))
         {
             System.err.println(Constants.WRONG_FILE_FORMAT);
             result = Constants.IO_ERROR;
         }
-        else result = VerifyDocument.Verify("src/ex5/Tests/test452.sjava");
+        else{
+            try {
+                result = VerifyDocument.Verify("src/ex5/Tests/test003.sjava");
+            } catch (IncorrectLineException e){
+                System.err.println(e.getMessage());
+                result = Constants.CODE_ILLEGAL;
+            }
+        }
         System.out.println(result);
     }
 }
