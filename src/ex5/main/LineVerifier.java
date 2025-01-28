@@ -68,14 +68,15 @@ public class LineVerifier {
         else{
             boolean isVerified = false;
             for(LineTypeVerifier lineTypeVerifier : verifiers){
-                if(lineTypeVerifier.verifyLine(line)){
-                    isVerified = true;
+                try {
+                    if (lineTypeVerifier.verifyLine(line)) isVerified = true;
+                } catch (IncorrectLineException e) {
+                    System.err.println(e.getMessage());
                 }
             }
             if(!isVerified){
-                //TODO SYNTAX ERROR
-                System.err.printf((Constants.SYNTAX_ERROR), line.lineNumber);
-                return false;
+                throw new SyntaxErrorException(Constants.SYNTAX_ERROR, line.lineNumber);
+                // TODO return false;
             }
         }
         return true;
