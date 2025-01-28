@@ -55,6 +55,10 @@ public class Constants {
      * Constants for the different types of errors.
      */
     public static final String
+        WRONG_NUM_OF_ARGS = "Wrong number of program arguments.",
+        WRONG_FILE_FORMAT = "Wrong file format.",
+        INVALID_FILE_NAME = "Invalid file name.",
+
         ILLEGAL_LINE_END_SYNTAX = "Illegal line end syntax",
         LINE_SYNTAX_ERROR = "Line doesn't match required syntax",
         ILLEGAL_SCOPE_ERROR = "Can't use close brackets, already in the global scope",

@@ -1,5 +1,7 @@
 package ex5.main;
 
+import ex5.utils.Constants;
+
 /**
  * This class is the main class of the program.
  * It verifies a document and prints the result.
@@ -18,7 +20,18 @@ public class Sjavac {
      * @param args the path to the document
      */
     public static void main(String[] args) {
-        int result = VerifyDocument.Verify("src/ex5/Tests/ruthTests.sjava");
+        int result;
+        if (args.length != 1)
+        {
+            System.err.println(Constants.WRONG_NUM_OF_ARGS);
+            result = Constants.IO_ERROR;
+        }
+        else if (!args[0].endsWith(".sjava"))
+        {
+            System.err.println(Constants.WRONG_FILE_FORMAT);
+            result = Constants.IO_ERROR;
+        }
+        else result = VerifyDocument.Verify("src/ex5/Tests/test452.sjava");
         System.out.println(result);
     }
 }
