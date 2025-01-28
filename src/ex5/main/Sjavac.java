@@ -34,7 +34,7 @@ public class Sjavac {
         }
         else{
             try {
-                result = VerifyDocument.Verify("src/ex5/Tests/test003.sjava");
+                result = VerifyDocument.Verify(args[0]);
             } catch (IncorrectLineException e){
                 System.err.println(e.getMessage());
                 result = Constants.CODE_ILLEGAL;

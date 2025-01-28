@@ -31,8 +31,10 @@ public class RegexConstants {
 
             VARIABLE_DECLARATION_REGEX = "^(final\\s+)?(int|double|String|boolean|char)\\s+((([A-Za-z]" +
                     "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"" +
-                    "|'.'|true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?\\s*,\\s*)*([A-Za-z]" +
-                    "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|" +
+                    "|'.'|true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?\\s*,\\s*)" +
+                    "*([A-Za-z]" +
+                    "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)" +
+                    "((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|" +
                     "true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?)\\s*;",
 
             CONDITION_REGEX = "true|false|[-+]?[\\d]*[.]?[\\d]+|" + VAR_NAME_REGEX,
@@ -67,7 +69,7 @@ public class RegexConstants {
                     "((\\s*[=]\\s*)" +
                     "([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|true|false|" +
                     "([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*))))" +
-                    "\\s*;", // TODO no $?
+                    "\\s*;",
 
             SINGLE_VAR_ASSIGN_REGEX = "\\s*" +
                     "(([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)" +

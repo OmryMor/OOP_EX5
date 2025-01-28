@@ -141,6 +141,12 @@ public interface LineTypeVerifier {
         throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNum);
     }
 
+    /**
+     * Verify that a variable assignment is valid.
+     * @param type the variable type
+     * @param assignerVarName the name of the variable to assign
+     * @param lineNum the line number
+     */
     default void verifyVarAssignment(VariableType type, String assignerVarName, int lineNum)
             throws IncorrectLineException {
         VariableAttributes newVar = VariableContainer.getVarInScope(assignerVarName);

@@ -4,7 +4,6 @@ import ex5.Containers.MethodAttributes;
 import ex5.Containers.MethodsContainer;
 import ex5.Containers.VariableAttributes;
 import ex5.Containers.VariableContainer;
-import ex5.main.LineVerifier;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
