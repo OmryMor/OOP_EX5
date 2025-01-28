@@ -4,6 +4,7 @@ import ex5.Containers.MethodAttributes;
 import ex5.Containers.MethodsContainer;
 import ex5.Containers.VariableAttributes;
 import ex5.Containers.VariableContainer;
+import ex5.main.LineVerifier;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
 import ex5.utils.RegexConstants;
@@ -12,7 +13,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class verifies that a line is a method call.
+ * @author Omry Mor, Ruth Schiller
+ */
 public class MethodCallVerifier implements LineTypeVerifier {
+
+    private static final int methodNameGroup = 1;
+    private static final int methodParametersGroup = 2;
 
     /**
      * Verify that the line is a method call.
@@ -26,14 +34,14 @@ public class MethodCallVerifier implements LineTypeVerifier {
         if (!matcher.find()) {
             return false;
         }
-        String methodName = matcher.group(1);
+        String methodName = matcher.group(methodNameGroup);
         MethodAttributes methodAttributes = MethodsContainer.getMethod(methodName);
         if (methodAttributes == null) {
             throw new LanguageRuleException(Constants.METHOD_NOT_DECLARED, lineNumberTuple.lineNumber);
             // TODO return false;
         }
         try {
-            checkMethodParameters(matcher.group(2), methodAttributes, lineNumberTuple);
+            checkMethodParameters(matcher.group(methodParametersGroup), methodAttributes, lineNumberTuple);
         } catch (IncorrectLineException e) {
             throw new RuntimeException(e);
         }

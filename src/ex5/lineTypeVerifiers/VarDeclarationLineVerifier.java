@@ -61,7 +61,8 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
                 throw new LanguageRuleException(Constants.TYPE_MISMATCH_ERROR, lineNumberTuple.lineNumber);
                 // TODO return false;
             }
-            if(LineVerifier.isFirstPass){
+            if((LineVerifier.isFirstPass && VariableContainer.inGlobalScope()) ||
+                    (!LineVerifier.isFirstPass&& !VariableContainer.inGlobalScope())){
                 VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
                 if(!VariableContainer.addVarToCurrentScope(var)){
                     throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
@@ -73,8 +74,6 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         PreviousStatementContainer.setPrevStatement(LineContent.VARIABLE_DECLARATION);
         return true;
     }
-
-
 
     private boolean isSafeWord(String word){
         //This method checks if a word is a reserved keyword

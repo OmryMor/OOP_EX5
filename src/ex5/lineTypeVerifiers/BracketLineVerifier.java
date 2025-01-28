@@ -26,11 +26,11 @@ public class BracketLineVerifier implements LineTypeVerifier {
         if(!lineNumberTuple.line.trim().equals(CLOSE_BRACKET)){
             return false;
         }
-        if(!VariableContainer.scopeOut()){
+        if(!VariableContainer.scopeOut() && !LineVerifier.isFirstPass){
             throw new LanguageRuleException(Constants.ILLEGAL_SCOPE_ERROR, lineNumberTuple.lineNumber);
             // TODO return false;
         }
-        if(VariableContainer.inGlobalScope()){
+        if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
             if(PreviousStatementContainer.getPrevStatement() != LineContent.RETURN){
                 throw new LanguageRuleException(Constants.METHOD_NOT_ENDING_WITH_RETURN_ERROR,
                         lineNumberTuple.lineNumber);

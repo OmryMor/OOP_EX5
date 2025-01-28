@@ -1,6 +1,7 @@
 package ex5.lineTypeVerifiers;
 
 import ex5.Containers.VariableContainer;
+import ex5.main.LineVerifier;
 import ex5.utils.LineContent;
 import ex5.utils.Constants;
 import ex5.utils.LineNumberTuple;
@@ -29,11 +30,14 @@ public class IfLineVerifier implements LineTypeVerifier {
         if (!matcher.find()) {
             return false;
         }
-        if(VariableContainer.inGlobalScope()){
+        if(VariableContainer.inGlobalScope() && !LineVerifier.isFirstPass){
             throw new LanguageRuleException(Constants.CALL_NOT_IN_FUNCTION, lineNumberTuple.lineNumber);
             // TODO return false;
         }
         VariableContainer.scopeIn();
+        if(!LineVerifier.isFirstPass){
+            return true;
+        }
         String expressionString = matcher.group(expressionStringGroup);
         try{
             return verifyExpressions(expressionString, lineNumberTuple.lineNumber, LineContent.IF_STATEMENT);

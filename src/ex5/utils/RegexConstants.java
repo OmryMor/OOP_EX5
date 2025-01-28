@@ -32,7 +32,7 @@ public class RegexConstants {
                     "|'.'|true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?\\s*,\\s*)*([A-Za-z]" +
                     "[A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)((\\s*[=]\\s*)([-+]?[\\d]*[.]?[\\d]+|\".*\"|'.'|" +
                     "true|false|([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9][A-Za-z0-9_]*)))?)\\s*;",
-//String.format("(%s)((%s,\\s*)*%s);$",VAR_TYPE_REGEX, SINGLE_DECLARATION_REGEX, SINGLE_DECLARATION_REGEX),
+
             CONDITION_REGEX = "true|false|[-+]?[\\d]*[.]?[\\d]+|" + VAR_NAME_REGEX,
 
             CHAINED_CONDITION_REGEX = String.format("(%s)((\\s*(\\|\\||&&)\\s*(%s))*)",
