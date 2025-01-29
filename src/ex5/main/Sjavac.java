@@ -27,14 +27,13 @@ public class Sjavac {
         try {
             validateNumOfArgs(args.length);
             validateFileType(args[0]);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.err.println(e.getMessage());
             result = Constants.IO_ERROR;
         }
         if (result != Constants.IO_ERROR) {
             try {
-                result = VerifyDocument.Verify("src/ex5/Tests/test003.sjava");
+                VerifyDocument.Verify(args[0]);
             } catch (IncorrectLineException e) {
                 System.err.println(e.getMessage());
                 result = Constants.CODE_ILLEGAL;

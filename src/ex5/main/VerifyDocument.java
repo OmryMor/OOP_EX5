@@ -28,9 +28,8 @@ public class VerifyDocument {
     /**
      * Verify that a document is legal.
      * @param path the path to the document
-     * @return 0 if the document is legal, 1 if it is not, 2 if there was an IO error
      */
-    public static int Verify(String path) throws IncorrectLineException, IOException {
+    public static void Verify(String path) throws IncorrectLineException, IOException {
         // parse file and extract lines
         List<LineNumberTuple> lines;
         try{
@@ -43,34 +42,22 @@ public class VerifyDocument {
 
         LineVerifier lineVerifier = new LineVerifier();
 
-
         try {
             checkAllLineEndingsLegal(lines);
-        } catch (IncorrectLineException le1) {
-            throw le1;
-        }
-
-        LineVerifier.isFirstPass = true;
-        for(LineNumberTuple line: lines){
-            try{
+            LineVerifier.isFirstPass = true;
+            for (LineNumberTuple line : lines) {
                 lineVerifier.verifyLine(line);
-            } catch (IncorrectLineException le2) {
-                throw le2;
             }
-        }
-        LineVerifier.isFirstPass = false;
-
-        for(LineNumberTuple line: lines){
-            try {
+            LineVerifier.isFirstPass = false;
+            for (LineNumberTuple line : lines) {
                 lineVerifier.verifyLine(line);
-            } catch (IncorrectLineException le3) {
-                throw le3;
             }
+            if (!VariableContainer.inGlobalScope()) {
+                throw new LanguageRuleException(Constants.BRACKETS_MISMATCH, lines.size());
+            }
+        } catch (IncorrectLineException le){
+            throw le;
         }
-        if(!VariableContainer.inGlobalScope()){
-            throw new LanguageRuleException(Constants.BRACKETS_MISMATCH, lines.size());
-        }
-        return Constants.CODE_LEGAL;
     }
 
     /**
@@ -123,7 +110,7 @@ public class VerifyDocument {
         return matcher.find();
     }
 
-    private static boolean checkAllLineEndingsLegal(List<LineNumberTuple> lines)
+    private static void checkAllLineEndingsLegal(List<LineNumberTuple> lines)
             throws IncorrectLineException {
         // Check that each line ends with a semicolon
         for (LineNumberTuple line : lines) {
@@ -131,6 +118,5 @@ public class VerifyDocument {
                 throw new SyntaxErrorException(Constants.ILLEGAL_LINE_END_SYNTAX, line.lineNumber);
             }
         }
-        return true;
     }
 }

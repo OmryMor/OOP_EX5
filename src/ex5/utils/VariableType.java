@@ -24,9 +24,5 @@ public enum VariableType {
     /**
      * Char variable type
      */
-    CHAR,
-    /**
-     * Variable type is not defined
-     */
-    VARIABLE
+    CHAR
 }
