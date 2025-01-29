@@ -40,36 +40,36 @@ public class VarDeclarationLineVerifier implements LineTypeVerifier{
         VariableType type = getType(matcher.group(varTypeCaptureGroup));
         boolean isFinal = lineNumberTuple.line.contains(Constants.FINAL_KEYWORD);
 
-        pattern = Pattern.compile(RegexConstants.SINGLE_DECLARATION_REGEX);
-        matcher = pattern.matcher(matcher.group(varDefinitionGroup));
-        while (matcher.find()) {
-            String name = matcher.group(singleDeclarationNameGroup);
-            String value = matcher.group(singleDeclarationValueGroup);
-            boolean hasValue = value != null;
-            if(!hasValue && isFinal){
-                throw new LanguageRuleException(Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR,
-                        lineNumberTuple.lineNumber);
-            }
-            if(isKeyword(name)){
-                throw new SyntaxErrorException(Constants.KEYWORD_AS_VARIABLE_ERROR,
-                        lineNumberTuple.lineNumber);
-            }
-            if(hasValue)
-            {
-                try {
-                    verifyValue(type, value, lineNumberTuple.lineNumber);
-                } catch (IncorrectLineException e) {
-                    throw e;
-                }
-            }
-
-            if((LineVerifier.isFirstPass && VariableContainer.inGlobalScope()) ||
-                    (!LineVerifier.isFirstPass && !VariableContainer.inGlobalScope())){
-                VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
-                if(!VariableContainer.addVarToCurrentScope(var)){
-                    throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
+        if((LineVerifier.isFirstPass && VariableContainer.inGlobalScope()) ||
+                (!LineVerifier.isFirstPass && !VariableContainer.inGlobalScope())){
+            pattern = Pattern.compile(RegexConstants.SINGLE_DECLARATION_REGEX);
+            matcher = pattern.matcher(matcher.group(varDefinitionGroup));
+            while (matcher.find()) {
+                String name = matcher.group(singleDeclarationNameGroup);
+                String value = matcher.group(singleDeclarationValueGroup);
+                boolean hasValue = value != null;
+                if(!hasValue && isFinal){
+                    throw new LanguageRuleException(Constants.FINAL_VARIABLE_NOT_INITIALIZED_ERROR,
                             lineNumberTuple.lineNumber);
                 }
+                if(isKeyword(name)){
+                    throw new SyntaxErrorException(Constants.KEYWORD_AS_VARIABLE_ERROR,
+                            lineNumberTuple.lineNumber);
+                }
+                if(hasValue)
+                {
+                    try {
+                        verifyValue(type, value, lineNumberTuple.lineNumber);
+                    } catch (IncorrectLineException e) {
+                        throw e;
+                    }
+                }
+
+                    VariableAttributes var = new VariableAttributes(type, hasValue, isFinal, name);
+                    if(!VariableContainer.addVarToCurrentScope(var)){
+                        throw new LanguageRuleException(Constants.VAR_NAME_TAKEN_ERROR,
+                                lineNumberTuple.lineNumber);
+                    }
             }
         }
         PreviousStatementContainer.setPrevStatement(LineContent.VARIABLE_DECLARATION);

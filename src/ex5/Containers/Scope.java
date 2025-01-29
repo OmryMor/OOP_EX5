@@ -3,7 +3,8 @@ package ex5.Containers;
 import java.util.HashMap;
 
 /**
- * This class represents a scope in the script. It holds the variables and methods in the scope and the parent scope.
+ * This class represents a scope in the script. It holds the variables and methods in the scope and
+ * the parent scope.
  * It also holds a boolean value that indicates if the scope is in a method or not.
  * The class has methods to add a variable to the scope and to find a variable in the scope.
  * The class also has methods to add a method to the scope and to find a method in the scope
