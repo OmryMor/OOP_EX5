@@ -30,33 +30,32 @@ public class VerifyDocument {
      * @param path the path to the document
      * @return 0 if the document is legal, 1 if it is not, 2 if there was an IO error
      */
-    public static int Verify(String path) throws LanguageRuleException {
+    public static int Verify(String path) throws IncorrectLineException, IOException {
         // parse file and extract lines
         List<LineNumberTuple> lines;
         try{
             lines = parseFile(path);
-        } catch (IOException e) {
-            return Constants.IO_ERROR;
+        } catch (IOException ioe) {
+            throw ioe;
         }
 
         lines = deleteCommentsAndEmptyRows(lines);
 
         LineVerifier lineVerifier = new LineVerifier();
 
+
         try {
             checkAllLineEndingsLegal(lines);
-        } catch (IncorrectLineException e) {
-            System.err.println(e.getMessage());
-            return Constants.CODE_ILLEGAL;
+        } catch (IncorrectLineException le1) {
+            throw le1;
         }
 
         LineVerifier.isFirstPass = true;
         for(LineNumberTuple line: lines){
             try{
                 lineVerifier.verifyLine(line);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                return Constants.CODE_ILLEGAL;
+            } catch (IncorrectLineException le2) {
+                throw le2;
             }
         }
         LineVerifier.isFirstPass = false;
@@ -64,9 +63,8 @@ public class VerifyDocument {
         for(LineNumberTuple line: lines){
             try {
                 lineVerifier.verifyLine(line);
-            } catch (IncorrectLineException e) {
-                System.err.println(e.getMessage());
-                return Constants.CODE_ILLEGAL;
+            } catch (IncorrectLineException le3) {
+                throw le3;
             }
         }
         if(!VariableContainer.inGlobalScope()){
@@ -98,8 +96,7 @@ public class VerifyDocument {
                 index++;
             }
         } catch (IOException e) {
-            System.err.println(Constants.INVALID_FILE_NAME);
-            throw e;
+            throw new IOException(Constants.INVALID_FILE_NAME);
         }
         return lines;
     }

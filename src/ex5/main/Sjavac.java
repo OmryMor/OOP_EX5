@@ -3,6 +3,8 @@ package ex5.main;
 import ex5.lineTypeVerifiers.IncorrectLineException;
 import ex5.utils.Constants;
 
+import java.io.IOException;
+
 /**
  * This class is the main class of the program.
  * It verifies a document and prints the result.
@@ -21,25 +23,40 @@ public class Sjavac {
      * @param args the path to the document
      */
     public static void main(String[] args) {
-        int result;
-        if (args.length != 1)
+        int result = Constants.CODE_LEGAL;
+        try {
+            validateNumOfArgs(args.length);
+            validateFileType(args[0]);
+        } catch (IOException e)
         {
-            System.err.println(Constants.WRONG_NUM_OF_ARGS);
+            System.err.println(e.getMessage());
             result = Constants.IO_ERROR;
         }
-        else if (!args[0].endsWith(Constants.SJAVA_SUFFIX))
-        {
-            System.err.println(Constants.WRONG_FILE_FORMAT);
-            result = Constants.IO_ERROR;
-        }
-        else{
+        if (result != Constants.IO_ERROR) {
             try {
-                result = VerifyDocument.Verify(args[0]);
-            } catch (IncorrectLineException e){
+                result = VerifyDocument.Verify("src/ex5/Tests/test003.sjava");
+            } catch (IncorrectLineException e) {
                 System.err.println(e.getMessage());
                 result = Constants.CODE_ILLEGAL;
+            } catch (IOException ioe){
+                System.err.println(ioe.getMessage());
+                result = Constants.IO_ERROR;
             }
         }
         System.out.println(result);
+    }
+
+    private static void validateNumOfArgs(int argsLength) throws IOException {
+        if (argsLength != 1)
+        {
+            throw new IOException(Constants.WRONG_NUM_OF_ARGS);
+        }
+    }
+
+    private static void validateFileType(String fileName) throws IOException {
+        if (!fileName.endsWith(Constants.SJAVA_SUFFIX))
+        {
+            throw new IOException(Constants.WRONG_FILE_FORMAT);
+        }
     }
 }
